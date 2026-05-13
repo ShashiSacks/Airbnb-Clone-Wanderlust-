@@ -254,8 +254,8 @@ passport.use(
       clientSecret:
         process.env.GOOGLE_CLIENT_SECRET,
 
-      callbackURL:
-        "/auth/google/callback",
+        callbackURL:
+  "https://airbnb-clone-h7jt.onrender.com/auth/google/callback",
 
     },
 
