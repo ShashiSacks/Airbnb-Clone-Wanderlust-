@@ -716,12 +716,15 @@ app.use(
 
 // Server
 
+const PORT =
+  process.env.PORT || 8080;
+
 app.listen(
-  8080,
+  PORT,
   () => {
 
     console.log(
-      "server running on port 8080"
+      `server running on port ${PORT}`
     );
 
   }
