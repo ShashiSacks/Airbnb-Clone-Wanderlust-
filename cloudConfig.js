@@ -8,7 +8,7 @@ const {
 );
 
 
-/* Cloudinary Config */
+// Cloudinary Config
 
 cloudinary.config({
 
@@ -24,7 +24,7 @@ cloudinary.config({
 });
 
 
-/* Storage */
+// Storage Config
 
 const storage =
   new CloudinaryStorage({
@@ -36,16 +36,11 @@ const storage =
       folder:
         "Wanderlust_DEV",
 
-      allowed_formats: [
-
+      allowedFormats: [
         "png",
-
         "jpg",
-
         "jpeg",
-
         "webp",
-
       ],
 
     },
