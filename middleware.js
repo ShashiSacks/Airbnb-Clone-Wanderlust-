@@ -5,7 +5,9 @@ const Review =
   require("./models/review");
 
 
-// Check Login
+// ========================================
+// CHECK LOGIN
+// ========================================
 
 module.exports.isLoggedIn = (
   req,
@@ -17,7 +19,7 @@ module.exports.isLoggedIn = (
     !req.isAuthenticated()
   ) {
 
-    // Save Redirect URL Only Once
+    // Save Redirect URL
 
     if (
       req.session &&
@@ -45,7 +47,9 @@ module.exports.isLoggedIn = (
 };
 
 
-// Save Redirect URL
+// ========================================
+// SAVE REDIRECT URL
+// ========================================
 
 module.exports.saveRedirectUrl = (
   req,
@@ -67,7 +71,9 @@ module.exports.saveRedirectUrl = (
 };
 
 
-// Check Listing Owner
+// ========================================
+// CHECK LISTING OWNER
+// ========================================
 
 module.exports.isOwner = async (
   req,
@@ -75,92 +81,37 @@ module.exports.isOwner = async (
   next
 ) => {
 
-  let { id } =
-    req.params;
+  try {
 
-  const listing =
-    await Listing.findById(id);
+    const { id } =
+      req.params;
 
+    const listing =
+      await Listing.findById(id);
 
-  if (!listing) {
-
-    req.flash(
-      "error",
-      "Listing not found!"
-    );
-
-    return res.redirect(
-      "/listings"
-    );
-
-  }
-
-
-  if (
-    !listing.owner.equals(
-      res.locals.currUser._id
-    )
-  ) {
-
-    req.flash(
-      "error",
-      "You are not the owner of this listing!"
-    );
-
-    return res.redirect(
-      `/listings/${id}`
-    );
-
-  }
-
-  next();
-
-};
-
-
-// Check Review Author
-
-module.exports.isReviewAuthor =
-  async (
-    req,
-    res,
-    next
-  ) => {
-
-    let {
-      id,
-      reviewId
-    } = req.params;
-
-    const review =
-      await Review.findById(
-        reviewId
-      );
-
-
-    if (!review) {
+    if (!listing) {
 
       req.flash(
         "error",
-        "Review not found!"
+        "Listing not found!"
       );
 
       return res.redirect(
-        `/listings/${id}`
+        "/listings"
       );
 
     }
 
-
     if (
-      !review.author.equals(
+      !res.locals.currUser ||
+      !listing.owner.equals(
         res.locals.currUser._id
       )
     ) {
 
       req.flash(
         "error",
-        "You are not the author of this review!"
+        "You are not the owner of this listing!"
       );
 
       return res.redirect(
@@ -170,5 +121,94 @@ module.exports.isReviewAuthor =
     }
 
     next();
+
+  } catch (err) {
+
+    console.log(err);
+
+    req.flash(
+      "error",
+      "Something went wrong!"
+    );
+
+    return res.redirect(
+      "/listings"
+    );
+
+  }
+
+};
+
+
+// ========================================
+// CHECK REVIEW AUTHOR
+// ========================================
+
+module.exports.isReviewAuthor =
+  async (
+    req,
+    res,
+    next
+  ) => {
+
+    try {
+
+      const {
+        id,
+        reviewId
+      } = req.params;
+
+      const review =
+        await Review.findById(
+          reviewId
+        );
+
+      if (!review) {
+
+        req.flash(
+          "error",
+          "Review not found!"
+        );
+
+        return res.redirect(
+          `/listings/${id}`
+        );
+
+      }
+
+      if (
+        !res.locals.currUser ||
+        !review.author.equals(
+          res.locals.currUser._id
+        )
+      ) {
+
+        req.flash(
+          "error",
+          "You are not the author of this review!"
+        );
+
+        return res.redirect(
+          `/listings/${id}`
+        );
+
+      }
+
+      next();
+
+    } catch (err) {
+
+      console.log(err);
+
+      req.flash(
+        "error",
+        "Something went wrong!"
+      );
+
+      return res.redirect(
+        "/listings"
+      );
+
+    }
 
   };

@@ -67,6 +67,11 @@ const userRouter =
 const wishlistRouter =
   require("./routes/wishlist.js");
 
+const {
+  saveRedirectUrl,
+  isLoggedIn,
+} = require("./middleware.js");
+
 
 // MongoDB
 
@@ -220,6 +225,8 @@ app.use(
 );
 
 app.use(flash());
+
+app.use(saveRedirectUrl);
 
 
 // Passport
@@ -540,24 +547,7 @@ app.post(
 
   "/create-checkout-session/:id",
 
-  (req, res, next) => {
-
-    if (!req.isAuthenticated()) {
-
-      req.flash(
-        "error",
-        "You should login in order to book!"
-      );
-
-      return res.redirect(
-        "/login"
-      );
-
-    }
-
-    next();
-
-  },
+  isLoggedIn,
 
   async (
     req,

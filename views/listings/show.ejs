@@ -137,25 +137,37 @@
 
       <!-- Book Now -->
 
-      <div class="book-now-wrapper">
+<div class="book-now-wrapper">
 
-        <form
-          method="POST"
-          action="/create-checkout-session/<%= listing._id %>"
-        >
+  <% if(currUser) { %>
 
-          <button
-            type="submit"
-            class="btn btn-book-now btn-fixed"
-          >
-            Book Now
-          </button>
+    <form
+      method="POST"
+      action="/create-checkout-session/<%= listing._id %>"
+    >
 
-        </form>
+      <button
+        type="submit"
+        class="btn btn-book-now btn-fixed"
+      >
+        Book Now
+      </button>
 
-      </div>
+    </form>
 
+  <% } else { %>
 
+    <a
+      href="/login"
+      class="btn btn-book-now btn-fixed"
+    >
+    
+    Book Now
+    </a>
+
+  <% } %>
+
+</div>
       <!-- Edit Delete Buttons -->
 
       <div class="edit-delete-wrapper">

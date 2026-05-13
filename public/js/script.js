@@ -1,14 +1,17 @@
-// Leaflet Dynamic Map
+// ========================================
+// LEAFLET DYNAMIC MAP
+// ========================================
 
 window.addEventListener(
   "load",
   async () => {
 
-    // Prevent errors
+    const mapElement =
+      document.getElementById("map");
 
     if (
       typeof listing === "undefined" ||
-      !document.getElementById("map")
+      !mapElement
     ) {
       return;
     }
@@ -16,7 +19,7 @@ window.addEventListener(
     let latitude;
     let longitude;
 
-    // Existing DB coordinates
+    // Existing DB Coordinates
 
     if (
       listing.geometry &&
@@ -32,13 +35,13 @@ window.addEventListener(
 
     }
 
-    // Detect wrong default Kerala coords
+    // Detect Wrong Kerala Fallback
 
     const wrongCoords =
       longitude === 76.6141 &&
       latitude === 8.8932;
 
-    // Auto fetch correct coords
+    // Auto Fetch Coordinates
 
     if (
       !latitude ||
@@ -69,7 +72,7 @@ window.addEventListener(
 
         } else {
 
-          // fallback
+          // India Fallback
 
           latitude = 20.5937;
           longitude = 78.9629;
@@ -90,45 +93,48 @@ window.addEventListener(
 
     }
 
-    /* =========================
-       CREATE MAP
-    ========================= */
+    // Create Map
 
     const map =
-      L.map("map");
+      L.map("map", {
+        zoomControl: true,
+        scrollWheelZoom: false,
+      });
 
-    /* India View First */
+    // India View First
 
     map.fitBounds([
       [6.5, 68.0],
-      [37.0, 97.5]
+      [37.0, 97.5],
     ]);
 
-    /* OpenStreetMap Tiles */
+    // OpenStreetMap Tiles
 
     L.tileLayer(
       "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
       {
         attribution:
           "&copy; OpenStreetMap contributors",
+        maxZoom: 19,
       }
     ).addTo(map);
 
-    /* Marker */
+    // Marker
 
     const marker =
       L.marker([latitude, longitude])
         .addTo(map)
         .bindPopup(
           `
-          <b>${listing.title}</b>
-          <br>
-          ${listing.location},
-          ${listing.country}
+          <div class="map-popup">
+            <b>${listing.title}</b>
+            <br>
+            ${listing.location}, ${listing.country}
+          </div>
           `
         );
 
-    /* Smooth Zoom To Exact Location */
+    // Smooth Zoom
 
     setTimeout(() => {
 
@@ -137,7 +143,7 @@ window.addEventListener(
         13,
         {
           animate: true,
-          duration: 2.5
+          duration: 2.5,
         }
       );
 
@@ -145,7 +151,7 @@ window.addEventListener(
 
     }, 800);
 
-    // Fix grey map issue
+    // Fix Grey Map
 
     setTimeout(() => {
 
@@ -157,7 +163,9 @@ window.addEventListener(
 );
 
 
-// Bootstrap Validation
+// ========================================
+// BOOTSTRAP VALIDATION
+// ========================================
 
 (() => {
 
@@ -177,7 +185,6 @@ window.addEventListener(
         if (!form.checkValidity()) {
 
           event.preventDefault();
-
           event.stopPropagation();
 
         }
@@ -195,7 +202,9 @@ window.addEventListener(
 })();
 
 
-// Open Image Popup
+// ========================================
+// IMAGE POPUP
+// ========================================
 
 function openImage(src) {
 
@@ -209,22 +218,20 @@ function openImage(src) {
       "popupImage"
     );
 
-  if (modal && popupImage) {
-
-    modal.style.display =
-      "flex";
-
-    popupImage.src = src;
-
-    document.body.style.overflow =
-      "hidden";
-
+  if (!modal || !popupImage) {
+    return;
   }
+
+  modal.style.display =
+    "flex";
+
+  popupImage.src = src;
+
+  document.body.style.overflow =
+    "hidden";
 
 }
 
-
-// Close Image Popup
 
 function closeImage() {
 
@@ -233,31 +240,34 @@ function closeImage() {
       "imageModal"
     );
 
-  if (modal) {
-
-    modal.style.display =
-      "none";
-
-    document.body.style.overflow =
-      "auto";
-
+  if (!modal) {
+    return;
   }
+
+  modal.style.display =
+    "none";
+
+  document.body.style.overflow =
+    "auto";
 
 }
 
 
-// Close Modal Outside Click
+// Close Outside Click
 
 window.addEventListener(
   "click",
-  function(event) {
+  (event) => {
 
     const modal =
       document.getElementById(
         "imageModal"
       );
 
-    if (event.target === modal) {
+    if (
+      modal &&
+      event.target === modal
+    ) {
 
       closeImage();
 
@@ -271,7 +281,7 @@ window.addEventListener(
 
 document.addEventListener(
   "keydown",
-  function(event) {
+  (event) => {
 
     if (event.key === "Escape") {
 
@@ -283,7 +293,9 @@ document.addEventListener(
 );
 
 
-// Gallery Hover Effect
+// ========================================
+// GALLERY HOVER EFFECT
+// ========================================
 
 const galleryImages =
   document.querySelectorAll(
@@ -315,7 +327,9 @@ galleryImages.forEach((img) => {
 });
 
 
-// Homepage Image Slider
+// ========================================
+// HOMEPAGE IMAGE SLIDER
+// ========================================
 
 const sliders =
   document.querySelectorAll(
@@ -339,6 +353,10 @@ sliders.forEach((slider) => {
       ".next-btn"
     );
 
+  if (!images.length) {
+    return;
+  }
+
   let currentIndex = 0;
 
 
@@ -352,13 +370,56 @@ sliders.forEach((slider) => {
 
     });
 
-    if (images[index]) {
+    images[index].classList.add(
+      "active-slide"
+    );
 
-      images[index].classList.add(
-        "active-slide"
-      );
+  }
+
+
+  function nextImage(event) {
+
+    if (event) {
+
+      event.preventDefault();
+      event.stopPropagation();
 
     }
+
+    currentIndex++;
+
+    if (
+      currentIndex >= images.length
+    ) {
+
+      currentIndex = 0;
+
+    }
+
+    showImage(currentIndex);
+
+  }
+
+
+  function prevImage(event) {
+
+    if (event) {
+
+      event.preventDefault();
+      event.stopPropagation();
+
+    }
+
+    currentIndex--;
+
+    if (currentIndex < 0) {
+
+      currentIndex =
+        images.length - 1;
+
+    }
+
+    showImage(currentIndex);
 
   }
 
@@ -367,25 +428,7 @@ sliders.forEach((slider) => {
 
     nextBtn.addEventListener(
       "click",
-      (event) => {
-
-        event.preventDefault();
-
-        event.stopPropagation();
-
-        currentIndex++;
-
-        if (
-          currentIndex >= images.length
-        ) {
-
-          currentIndex = 0;
-
-        }
-
-        showImage(currentIndex);
-
-      }
+      nextImage
     );
 
   }
@@ -395,39 +438,63 @@ sliders.forEach((slider) => {
 
     prevBtn.addEventListener(
       "click",
-      (event) => {
-
-        event.preventDefault();
-
-        event.stopPropagation();
-
-        currentIndex--;
-
-        if (currentIndex < 0) {
-
-          currentIndex =
-            images.length - 1;
-
-        }
-
-        showImage(currentIndex);
-
-      }
+      prevImage
     );
 
   }
 
+  // Touch Swipe Support
 
-  if (images.length > 0) {
+  let startX = 0;
 
-    showImage(currentIndex);
+  slider.addEventListener(
+    "touchstart",
+    (event) => {
 
-  }
+      startX =
+        event.touches[0].clientX;
+
+    },
+    { passive: true }
+  );
+
+
+  slider.addEventListener(
+    "touchend",
+    (event) => {
+
+      const endX =
+        event.changedTouches[0].clientX;
+
+      const difference =
+        startX - endX;
+
+      if (difference > 50) {
+
+        nextImage();
+
+      }
+
+      if (difference < -50) {
+
+        prevImage();
+
+      }
+
+    },
+    { passive: true }
+  );
+
+  // Initialize First Slide
+
+  showImage(currentIndex);
 
 });
 
 
-// Wishlist Toast Popup
+// ========================================
+// WISHLIST TOAST POPUP
+// ========================================
 
 const wishlistForms =
   document.querySelectorAll(
@@ -439,6 +506,17 @@ wishlistForms.forEach((form) => {
   form.addEventListener(
     "submit",
     () => {
+
+      const oldToast =
+        document.querySelector(
+          ".wishlist-toast"
+        );
+
+      if (oldToast) {
+
+        oldToast.remove();
+
+      }
 
       const toast =
         document.createElement("div");
@@ -461,6 +539,7 @@ wishlistForms.forEach((form) => {
 
       }, 50);
 
+
       setTimeout(() => {
 
         toast.classList.remove(
@@ -479,3 +558,47 @@ wishlistForms.forEach((form) => {
   );
 
 });
+
+
+// ========================================
+// FLASH MESSAGE AUTO CLOSE
+// ========================================
+
+document.addEventListener(
+  "DOMContentLoaded",
+  () => {
+
+    const flashAlerts =
+      document.querySelectorAll(
+        ".custom-flash"
+      );
+
+    if (!flashAlerts.length) {
+      return;
+    }
+
+    flashAlerts.forEach((alert) => {
+
+      setTimeout(() => {
+
+        alert.style.transition =
+          "all 0.35s ease";
+
+        alert.style.opacity =
+          "0";
+
+        alert.style.transform =
+          "translateY(-10px)";
+
+        setTimeout(() => {
+
+          alert.remove();
+
+        }, 350);
+
+      }, 3200);
+
+    });
+
+  }
+);

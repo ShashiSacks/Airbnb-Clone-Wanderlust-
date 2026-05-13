@@ -1,44 +1,70 @@
 <% if (success && success.length) { %>
-  <div
-    class="alert alert-success alert-dismissible fade show col-6 offset-3"
-    role="alert"
-  >
-    <%= success %>
-    <button
-      type="button"
-      class="btn-close"
-      data-bs-dismiss="alert"
-      aria-label="Close"
+
+  <div class="flash-wrapper">
+
+    <div
+      class="alert alert-success alert-dismissible fade show custom-flash success-flash"
+      role="alert"
     >
-    </button>
+
+      <div class="flash-content">
+
+        <div class="flash-icon">
+          <i class="fa-solid fa-circle-check"></i>
+        </div>
+
+        <div class="flash-message">
+          <%= success %>
+        </div>
+
+      </div>
+
+      <button
+        type="button"
+        class="btn-close"
+        data-bs-dismiss="alert"
+        aria-label="Close"
+      >
+      </button>
+
+    </div>
+
   </div>
+
 <% } %>
+
 
 <% if (error && error.length) { %>
-  <div
-    class="alert alert-danger alert-dismissible fade show col-6 offset-3"
-    role="alert"
-  >
-    <%= error %>
-    <button
-      type="button"
-      class="btn-close"
-      data-bs-dismiss="alert"
-      aria-label="Close"
-    >
-    </button>
-  </div>
-<% } %>
 
-<script>
-  setTimeout(() => {
-    let alerts = document.querySelectorAll(".alert");
-    alerts.forEach((alert) => {
-      alert.style.transition = "opacity 0.3s ease";
-      alert.style.opacity = "0";
-      setTimeout(() => {
-        alert.remove();
-      }, 300);
-    });
-  }, 3000);
-</script>
+  <div class="flash-wrapper">
+
+    <div
+      class="alert alert-danger alert-dismissible fade show custom-flash error-flash"
+      role="alert"
+    >
+
+      <div class="flash-content">
+
+        <div class="flash-icon">
+          <i class="fa-solid fa-circle-exclamation"></i>
+        </div>
+
+        <div class="flash-message">
+          <%= error %>
+        </div>
+
+      </div>
+
+      <button
+        type="button"
+        class="btn-close"
+        data-bs-dismiss="alert"
+        aria-label="Close"
+      >
+      </button>
+
+    </div>
+
+  </div>
+
+<% } %>
