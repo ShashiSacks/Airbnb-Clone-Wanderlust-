@@ -1,0 +1,211 @@
+<% layout("layouts/boilerplate") %>
+
+
+<!-- Heading -->
+
+<div class="wishlist-heading">
+
+  <div class="wishlist-heading-icon">
+
+    <i class="fa-solid fa-house"></i>
+
+  </div>
+
+  <div>
+
+    <h2 class="wishlist-title">
+      Your Listings
+    </h2>
+
+    <p class="wishlist-subtitle">
+
+      <%= listings.length %>
+
+      <% if(listings.length === 1) { %>
+
+        Property added by you
+
+      <% } else { %>
+
+        Properties added by you
+
+      <% } %>
+
+    </p>
+
+  </div>
+
+</div>
+
+
+<!-- Empty State -->
+
+<% if(listings.length === 0) { %>
+
+  <div class="empty-listing-box">
+
+    <i class="fa-solid fa-house-circle-xmark"></i>
+
+    <h3>
+      No Listings Yet
+    </h3>
+
+    <p>
+      Start hosting and add your first stay.
+    </p>
+
+    <a
+      href="/listings/new"
+      class="btn btn-primary-action btn-fixed mt-3"
+    >
+      Add Your First Listing
+    </a>
+
+  </div>
+
+<% } else { %>
+
+
+  <!-- Listings -->
+
+  <div class="row justify-content-center mt-4">
+
+    <% for(let listing of listings) { %>
+
+      <div class="col-lg-4 col-md-6 mb-4">
+
+        <div class="listing-card-wrapper">
+
+          <a
+            href="/listings/<%= listing._id %>"
+            class="listing-link"
+          >
+
+            <div class="card listing-card">
+
+
+              <!-- Image Slider -->
+
+              <div class="listing-slider">
+
+                <% if(
+                  listing.images &&
+                  listing.images.length > 0
+                ) { %>
+
+                  <% listing.images.forEach((image, index) => { %>
+
+                    <img
+                      src="<%= image.url %>"
+                      alt="listing_image"
+                      class="slider-image <%= index === 0 ? 'active-slide' : '' %>"
+                    >
+
+                  <% }) %>
+
+                <% } else { %>
+
+                  <img
+                    src="/default.jpg"
+                    alt="default_image"
+                    class="slider-image active-slide"
+                  >
+
+                <% } %>
+
+
+                <!-- Slider Buttons -->
+
+                <button
+                  type="button"
+                  class="slider-btn prev-btn"
+                >
+                  ‹
+                </button>
+
+                <button
+                  type="button"
+                  class="slider-btn next-btn"
+                >
+                  ›
+                </button>
+
+              </div>
+
+
+              <!-- Card Body -->
+
+              <div class="card-body text-center">
+
+                <p class="card-text">
+
+                  <b>
+                    <%= listing.title %>
+                  </b>
+
+                  <br>
+
+                  <span style="color: #717171;">
+
+                    <i class="fa-solid fa-location-dot"></i>
+
+                    <%= listing.location %>,
+
+                    <%= listing.country %>
+
+                  </span>
+
+                  <br>
+
+                  &#8377;
+
+                  <%= listing.price.toLocaleString("en-IN") %>
+
+                  <span style="color: gray;">
+                    / night
+                  </span>
+
+                </p>
+
+              </div>
+
+            </div>
+
+          </a>
+
+
+          <!-- Listing Actions -->
+
+          <div class="my-listing-actions">
+
+            <a
+              href="/listings/<%= listing._id %>/edit"
+              class="btn btn-primary-action btn-fixed"
+            >
+              Edit
+            </a>
+
+            <form
+              action="/listings/<%= listing._id %>?_method=DELETE"
+              method="POST"
+            >
+
+              <button
+                class="btn btn-danger-action btn-fixed"
+              >
+                Delete
+              </button>
+
+            </form>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    <% } %>
+
+  </div>
+
+<% } %>

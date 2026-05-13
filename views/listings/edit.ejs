@@ -1,0 +1,281 @@
+<% layout("layouts/boilerplate") %>
+
+<div class="listing-page-bg">
+
+  <div class="listing-form-container edit-listing-wrapper">
+
+    <!-- Heading -->
+
+    <div class="edit-heading">
+
+      <div class="edit-heading-icon">
+
+        <i class="fa-solid fa-pen-to-square"></i>
+
+      </div>
+
+      <div>
+
+        <h1 class="listing-form-title">
+          Edit Your Listing
+        </h1>
+
+        <p class="edit-subtitle">
+          Update your stay details and photos
+        </p>
+
+      </div>
+
+    </div>
+
+
+    <!-- Form -->
+
+    <form
+      method="POST"
+      action="/listings/<%= listing._id %>?_method=PUT"
+      enctype="multipart/form-data"
+      novalidate
+      class="needs-validation"
+    >
+
+      <!-- Title -->
+
+      <div class="mb-4">
+
+        <label class="form-label">
+          Title
+        </label>
+
+        <input
+          name="listing[title]"
+          value="<%= listing.title %>"
+          type="text"
+          class="form-control custom-input"
+          placeholder="Add a catchy title"
+          required
+        >
+
+      </div>
+
+
+      <!-- Description -->
+
+      <div class="mb-4">
+
+        <label class="form-label">
+          Description
+        </label>
+
+        <textarea
+          name="listing[description]"
+          class="form-control custom-textarea"
+          rows="4"
+          placeholder="Enter a short description"
+          required
+        ><%= listing.description %></textarea>
+
+      </div>
+
+
+      <!-- Current Photos -->
+
+      <div class="mb-4">
+
+        <label class="form-label d-block mb-3">
+          Current Photos
+        </label>
+
+        <div class="current-images-container">
+
+          <% if(listing.images && listing.images.length > 0) { %>
+
+            <% listing.images.forEach((image, index) => { %>
+
+              <div class="current-image-card">
+
+                <img
+                  src="<%= image.url %>"
+                  alt="listing_image"
+                >
+
+                <div class="current-image-label">
+
+                  <% if(index === 0) { %>
+
+                    Featured Photo
+
+                  <% } else { %>
+
+                    Photo <%= index + 1 %>
+
+                  <% } %>
+
+                </div>
+
+              </div>
+
+            <% }) %>
+
+          <% } else { %>
+
+            <div class="current-image-card">
+
+              <img
+                src="/default.jpg"
+                alt="default_image"
+              >
+
+              <div class="current-image-label">
+                Default Photo
+              </div>
+
+            </div>
+
+          <% } %>
+
+        </div>
+
+      </div>
+
+
+      <!-- Upload New Photos -->
+
+      <div class="upload-section">
+
+        <h5 class="upload-heading">
+          Upload New Photos
+        </h5>
+
+        <div class="row">
+
+          <div class="mb-3 col-md-4">
+
+            <label class="form-label">
+              Featured Photo
+            </label>
+
+            <input
+              name="listing[images]"
+              type="file"
+              class="form-control custom-file-input"
+              accept="image/*"
+            >
+
+          </div>
+
+          <div class="mb-3 col-md-4">
+
+            <label class="form-label">
+              Photo 2
+            </label>
+
+            <input
+              name="listing[images]"
+              type="file"
+              class="form-control custom-file-input"
+              accept="image/*"
+            >
+
+          </div>
+
+          <div class="mb-3 col-md-4">
+
+            <label class="form-label">
+              Photo 3
+            </label>
+
+            <input
+              name="listing[images]"
+              type="file"
+              class="form-control custom-file-input"
+              accept="image/*"
+            >
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- Details -->
+
+      <div class="row mt-4">
+
+        <div class="mb-4 col-md-4">
+
+          <label class="form-label">
+            Price (₹ / night)
+          </label>
+
+          <input
+            name="listing[price]"
+            value="<%= listing.price %>"
+            type="number"
+            class="form-control custom-input"
+            required
+          >
+
+        </div>
+
+        <div class="mb-4 col-md-4">
+
+          <label class="form-label">
+            Country
+          </label>
+
+          <input
+            name="listing[country]"
+            value="<%= listing.country %>"
+            type="text"
+            class="form-control custom-input"
+            required
+          >
+
+        </div>
+
+        <div class="mb-4 col-md-4">
+
+          <label class="form-label">
+            Location
+          </label>
+
+          <input
+            name="listing[location]"
+            value="<%= listing.location %>"
+            type="text"
+            class="form-control custom-input"
+            required
+          >
+
+        </div>
+
+      </div>
+
+
+      <!-- Buttons -->
+
+      <div class="d-flex justify-content-center gap-3 mt-4 flex-wrap">
+
+        <button
+          type="submit"
+          class="btn btn-primary-action btn-fixed"
+        >
+          Update Listing
+        </button>
+
+        <a
+          href="/listings/<%= listing._id %>"
+          class="btn btn-danger-action btn-fixed"
+        >
+          Cancel
+        </a>
+
+      </div>
+
+    </form>
+
+  </div>
+
+</div>

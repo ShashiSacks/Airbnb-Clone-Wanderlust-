@@ -1,0 +1,150 @@
+<% layout("layouts/boilerplate") %>
+
+<%- include("../includes/flash.ejs") %>
+
+<div class="auth-page">
+
+  <div class="auth-box">
+
+    <h2>
+      Create Account
+    </h2>
+
+    <p class="auth-subtitle">
+      Join Wanderlust and explore amazing stays
+    </p>
+
+
+    <!-- Signup Form -->
+
+    <form
+      action="/signup"
+      method="POST"
+      class="needs-validation"
+      novalidate
+    >
+
+      <!-- Username -->
+
+      <div class="mb-3">
+
+        <input
+          name="username"
+          id="username"
+          type="text"
+          class="form-control auth-input"
+          placeholder="Enter username"
+          autocapitalize="none"
+          autocomplete="username"
+          required
+        >
+
+        <div class="invalid-feedback">
+          Please enter username
+        </div>
+
+      </div>
+
+
+      <!-- Email -->
+
+      <div class="mb-3">
+
+        <input
+          name="email"
+          id="email"
+          type="email"
+          class="form-control auth-input"
+          placeholder="Enter email"
+          autocomplete="email"
+          required
+        >
+
+        <div class="invalid-feedback">
+          Please enter email
+        </div>
+
+      </div>
+
+
+      <!-- Password -->
+
+      <div class="mb-4">
+
+        <input
+          name="password"
+          id="password"
+          type="password"
+          class="form-control auth-input"
+          placeholder="Enter password"
+          autocomplete="new-password"
+          required
+        >
+
+        <div class="invalid-feedback">
+          Please enter password
+        </div>
+
+      </div>
+
+
+      <!-- Signup Button -->
+
+      <button
+        type="submit"
+        class="auth-main-btn"
+      >
+
+        <i class="fa-solid fa-user-plus"></i>
+
+        <span>
+          Sign Up
+        </span>
+
+      </button>
+
+    </form>
+
+
+    <!-- Divider -->
+
+    <div class="auth-divider">
+
+      <span>
+        OR
+      </span>
+
+    </div>
+
+
+    <!-- Google Signup -->
+
+    <a
+      href="/auth/google"
+      class="google-btn"
+    >
+
+      <i class="fa-brands fa-google"></i>
+
+      <span>
+        Sign up with Google
+      </span>
+
+    </a>
+
+
+    <!-- Bottom Text -->
+
+    <p class="auth-bottom-text">
+
+      Already have an account?
+
+      <a href="/login">
+        Log In
+      </a>
+
+    </p>
+
+  </div>
+
+</div>

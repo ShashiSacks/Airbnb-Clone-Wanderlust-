@@ -1,0 +1,152 @@
+<% layout("layouts/boilerplate") %>
+
+<div class="auth-page">
+
+  <div class="auth-box">
+
+    <h2>
+      Edit Review
+    </h2>
+
+    <p class="auth-subtitle">
+      Update your review
+    </p>
+
+    <form
+      method="POST"
+      action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=PUT"
+      class="needs-validation"
+      novalidate
+    >
+
+      <!-- Rating -->
+
+      <div class="review-field text-center mb-4">
+
+        <label class="d-block mb-3">
+          Rating
+        </label>
+
+        <fieldset class="starability-slot">
+
+          <input
+            type="radio"
+            id="rate1"
+            name="review[rating]"
+            value="1"
+            <%= review.rating == 1 ? "checked" : "" %>
+          />
+
+          <label for="rate1">
+            1 star
+          </label>
+
+
+          <input
+            type="radio"
+            id="rate2"
+            name="review[rating]"
+            value="2"
+            <%= review.rating == 2 ? "checked" : "" %>
+          />
+
+          <label for="rate2">
+            2 stars
+          </label>
+
+
+          <input
+            type="radio"
+            id="rate3"
+            name="review[rating]"
+            value="3"
+            <%= review.rating == 3 ? "checked" : "" %>
+          />
+
+          <label for="rate3">
+            3 stars
+          </label>
+
+
+          <input
+            type="radio"
+            id="rate4"
+            name="review[rating]"
+            value="4"
+            <%= review.rating == 4 ? "checked" : "" %>
+          />
+
+          <label for="rate4">
+            4 stars
+          </label>
+
+
+          <input
+            type="radio"
+            id="rate5"
+            name="review[rating]"
+            value="5"
+            <%= review.rating == 5 ? "checked" : "" %>
+          />
+
+          <label for="rate5">
+            5 stars
+          </label>
+
+        </fieldset>
+
+      </div>
+
+
+      <!-- Comment -->
+
+      <div class="review-field text-center mb-4">
+
+        <label
+          for="comment"
+          class="d-block mb-2"
+        >
+          Comments
+        </label>
+
+        <textarea
+          name="review[comment]"
+          id="comment"
+          rows="4"
+          class="center-input form-control"
+          required
+        ><%= review.comment %></textarea>
+
+        <div class="invalid-feedback">
+          Please add comments
+        </div>
+
+      </div>
+
+
+      <!-- Buttons -->
+
+      <div class="d-flex justify-content-center gap-3 flex-wrap">
+
+        <button
+          type="submit"
+          class="btn btn-primary-action btn-fixed"
+        >
+          Update
+        </button>
+
+
+        <a
+          href="/listings/<%= listing._id %>"
+          class="btn btn-danger-action btn-fixed"
+        >
+          Cancel
+        </a>
+
+      </div>
+
+    </form>
+
+  </div>
+
+</div>
