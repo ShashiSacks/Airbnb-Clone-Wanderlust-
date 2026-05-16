@@ -1,19 +1,18 @@
 const express = require("express");
 
-const router =
-  express.Router({
-    mergeParams: true,
-  });
+const router = express.Router({
+  mergeParams: true,
+});
 
-const multer =
-  require("multer");
+const multer = require("multer");
 
 const {
   storage,
 } = require("../cloudConfig.js");
 
-const upload =
-  multer({ storage });
+const upload = multer({
+  storage,
+});
 
 const wrapAsync =
   require("../utils/wrapAsync.js");
@@ -122,8 +121,10 @@ router.get(
         });
 
       res.render(
-        "listings/index.ejs",
-        { listings }
+        "listings/index",
+        {
+          listings,
+        }
       );
     }
   )
@@ -168,7 +169,9 @@ router.get(
 
       res.render(
         "listings/index",
-        { listings }
+        {
+          listings,
+        }
       );
     }
   )
@@ -191,9 +194,12 @@ router.get(
             req.user._id,
         });
 
-        res.render("listings/myListings", {
-  listings,
-});
+      res.render(
+        "listings/myListings",
+        {
+          listings,
+        }
+      );
     }
   )
 );
