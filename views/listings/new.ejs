@@ -1,35 +1,17 @@
 <% layout("layouts/boilerplate") %>
 
 <div class="listing-page-bg">
-
   <div class="listing-form-container edit-listing-wrapper">
 
-    <!-- Heading -->
-
     <div class="edit-heading">
-
       <div class="edit-heading-icon">
-
         <i class="fa-solid fa-house-circle-check"></i>
-
       </div>
-
       <div>
-
-        <h1 class="listing-form-title">
-          Create a New Listing
-        </h1>
-
-        <p class="edit-subtitle">
-          Share your beautiful stay with travelers around the world
-        </p>
-
+        <h1 class="listing-form-title">Create a New Listing</h1>
+        <p class="edit-subtitle">Share your beautiful stay with travelers around the world</p>
       </div>
-
     </div>
-
-
-    <!-- Form -->
 
     <form
       method="POST"
@@ -39,14 +21,8 @@
       enctype="multipart/form-data"
     >
 
-      <!-- Title -->
-
       <div class="mb-4">
-
-        <label class="form-label">
-          Title
-        </label>
-
+        <label class="form-label">Title</label>
         <input
           name="listing[title]"
           type="text"
@@ -54,26 +30,12 @@
           placeholder="Add a catchy title"
           required
         >
-
-        <div class="valid-feedback">
-          Title looks good!
-        </div>
-
-        <div class="invalid-feedback">
-          Please enter a title
-        </div>
-
+        <div class="valid-feedback">Title looks good!</div>
+        <div class="invalid-feedback">Please enter a title</div>
       </div>
 
-
-      <!-- Description -->
-
       <div class="mb-4">
-
-        <label class="form-label">
-          Description
-        </label>
-
+        <label class="form-label">Description</label>
         <textarea
           name="listing[description]"
           class="form-control custom-textarea"
@@ -81,167 +43,72 @@
           placeholder="Describe your property, amenities, and experience..."
           required
         ></textarea>
-
-        <div class="valid-feedback">
-          Looks good!
-        </div>
-
-        <div class="invalid-feedback">
-          Please enter a description
-        </div>
-
+        <div class="valid-feedback">Looks good!</div>
+        <div class="invalid-feedback">Please enter a description</div>
       </div>
-
-
-      <!-- Category -->
 
       <div class="mb-4">
-
-        <label class="form-label">
-          Category
-        </label>
-
-        <select
-          name="listing[category]"
-          class="form-select custom-input"
-          required
-        >
-
-          <option value="">
-            Select Category
-          </option>
-
-          <option value="Trending">
-            🔥 Trending
-          </option>
-
-          <option value="Rooms">
-            🛏️ Rooms
-          </option>
-
-          <option value="Iconic Cities">
-            🌆 Iconic Cities
-          </option>
-
-          <option value="Mountains">
-            ⛰️ Mountains
-          </option>
-
-          <option value="Castles">
-            🏰 Castles
-          </option>
-
-          <option value="Amazing Pools">
-            🏊 Amazing Pools
-          </option>
-
-          <option value="Camping">
-            🏕️ Camping
-          </option>
-
-          <option value="Farms">
-            🌾 Farms
-          </option>
-
-          <option value="Arctic">
-            ❄️ Arctic
-          </option>
-
-          <option value="Domes">
-            🛖 Domes
-          </option>
-
-          <option value="Boats">
-            ⛵ Boats
-          </option>
-
-          <option value="Containers">
-            📦 Containers
-          </option>
-
+        <label class="form-label">Category</label>
+        <select name="listing[category]" class="form-select custom-input" required>
+          <option value="">Select Category</option>
+          <option value="Trending">🔥 Trending</option>
+          <option value="Rooms">🛏️ Rooms</option>
+          <option value="Iconic Cities">🌆 Iconic Cities</option>
+          <option value="Mountains">⛰️ Mountains</option>
+          <option value="Castles">🏰 Castles</option>
+          <option value="Amazing Pools">🏊 Amazing Pools</option>
+          <option value="Camping">🏕️ Camping</option>
+          <option value="Farms">🌾 Farms</option>
+          <option value="Arctic">❄️ Arctic</option>
+          <option value="Domes">🛖 Domes</option>
+          <option value="Boats">⛵ Boats</option>
+          <option value="Containers">📦 Containers</option>
         </select>
-
-        <div class="invalid-feedback">
-          Please select a category
-        </div>
-
+        <div class="invalid-feedback">Please select a category</div>
       </div>
 
-
-      <!-- Upload Photos -->
-
       <div class="upload-section mb-4">
-
-        <h5 class="upload-heading">
-          Upload Property Photos
-        </h5>
-
+        <h5 class="upload-heading">Upload Property Photos</h5>
         <div class="row">
 
           <div class="mb-3 col-md-4">
-
-            <label class="form-label">
-              Featured Photo
-            </label>
-
+            <label class="form-label">Featured Photo</label>
             <input
               name="listing[images]"
               type="file"
               class="form-control custom-file-input"
               accept="image/*"
             >
-
           </div>
 
           <div class="mb-3 col-md-4">
-
-            <label class="form-label">
-              Photo 2
-            </label>
-
+            <label class="form-label">Photo 2</label>
             <input
               name="listing[images]"
               type="file"
               class="form-control custom-file-input"
               accept="image/*"
             >
-
           </div>
 
           <div class="mb-3 col-md-4">
-
-            <label class="form-label">
-              Photo 3
-            </label>
-
+            <label class="form-label">Photo 3</label>
             <input
               name="listing[images]"
               type="file"
               class="form-control custom-file-input"
               accept="image/*"
             >
-
           </div>
 
         </div>
-
-        <small class="text-muted d-block mt-2">
-          Leave blank to use default demo images
-        </small>
-
+        <small class="text-muted d-block mt-2">Leave blank to use default demo images</small>
       </div>
-
-
-      <!-- Details -->
 
       <div class="row mt-4">
 
         <div class="mb-4 col-md-4">
-
-          <label class="form-label">
-            Price (₹ / night)
-          </label>
-
+          <label class="form-label">Price (₹ / night)</label>
           <input
             name="listing[price]"
             type="number"
@@ -251,15 +118,10 @@
             min="1"
             step="1"
           >
-
         </div>
 
         <div class="mb-4 col-md-4">
-
-          <label class="form-label">
-            Country
-          </label>
-
+          <label class="form-label">Country</label>
           <input
             name="listing[country]"
             type="text"
@@ -267,15 +129,10 @@
             placeholder="India"
             required
           >
-
         </div>
 
         <div class="mb-4 col-md-4">
-
-          <label class="form-label">
-            Location
-          </label>
-
+          <label class="form-label">Location</label>
           <input
             name="listing[location]"
             type="text"
@@ -283,27 +140,15 @@
             placeholder="Munnar, Kerala"
             required
           >
-
         </div>
 
       </div>
 
-
-      <!-- Button -->
-
       <div class="d-flex justify-content-center mt-4">
-
-        <button
-          type="submit"
-          class="btn btn-primary-action btn-fixed"
-        >
-          Create Listing
-        </button>
-
+        <button type="submit" class="btn btn-primary-action btn-fixed">Create Listing</button>
       </div>
 
     </form>
 
   </div>
-
 </div>

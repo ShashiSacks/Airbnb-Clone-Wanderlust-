@@ -1,41 +1,17 @@
 <nav class="navbar sticky-top">
-
   <div class="container-fluid">
 
-    <!-- Logo -->
-
-    <a
-      class="navbar-brand"
-      href="/listings"
-    >
-
+    <a class="navbar-brand" href="/listings">
       <div class="nav-logo-icon">
-
         <i class="fa-regular fa-compass"></i>
-
       </div>
-
-      <span class="brand-text">
-        Wanderlust
-      </span>
-
+      <span class="brand-text">Wanderlust</span>
     </a>
-
-
-    <!-- Center Section -->
 
     <div class="nav-search-wrapper">
 
-      <!-- Search -->
-
-      <form
-        action="/listings/search"
-        method="GET"
-        class="search-form"
-      >
-
+      <form action="/listings/search" method="GET" class="search-form">
         <div class="search-bar">
-
           <i class="fa-solid fa-magnifying-glass"></i>
 
           <input
@@ -46,94 +22,52 @@
             value="<%= searchQuery || '' %>"
           >
 
-          <button
-            class="search-btn"
-            type="submit"
-          >
+          <button class="search-btn" type="submit">
             Search
           </button>
-
         </div>
-
       </form>
 
-
-      <!-- Navigation Pills -->
-
       <div class="nav-search-pill">
-
-        <!-- Discover -->
 
         <a
           class="pill-link <%= requestPath === '/listings' ? 'active-nav-link' : '' %>"
           href="/listings"
         >
-
           <i class="fa-solid fa-compass nav-icon"></i>
-
-          <span>
-            Discover
-          </span>
-
+          <span>Discover</span>
         </a>
 
-
         <span class="pill-divider"></span>
-
-
-        <!-- Add Listing -->
 
         <a
           class="pill-link <%= requestPath === '/listings/new' ? 'active-nav-link' : '' %>"
           href="/listings/new"
         >
-
           <i class="fa-solid fa-circle-plus nav-icon"></i>
-
-          <span>
-            Add Listing
-          </span>
-
+          <span>Add Listing</span>
         </a>
-
 
         <% if(currUser) { %>
 
           <span class="pill-divider"></span>
 
-
-          <!-- Your Listings -->
-
           <a
             class="pill-link <%= requestPath === '/listings/my-listings' ? 'active-nav-link' : '' %>"
             href="/listings/my-listings"
           >
-
             <i class="fa-solid fa-house nav-icon"></i>
-
-            <span>
-              Your Listings
-            </span>
-
+            <span>Your Listings</span>
           </a>
 
-
           <span class="pill-divider"></span>
-
-
-          <!-- Wishlists -->
 
           <a
             class="pill-link <%= requestPath === '/wishlists' ? 'active-nav-link' : '' %>"
             href="/wishlists"
           >
-
             <i class="fa-regular fa-heart nav-icon"></i>
-
-            <span>
-              Wishlists
-            </span>
-
+            <span>Wishlists</span>
           </a>
 
         <% } %>
@@ -142,57 +76,50 @@
 
     </div>
 
-
-    <!-- Auth -->
-
     <div class="auth-links">
 
       <% if(!currUser) { %>
 
-        <!-- Login -->
+        <!-- LOGIN -->
 
-        <a
-          class="auth-link"
-          href="/login"
-        >
+        <a class="auth-link" href="/login">
 
-          <i class="fa-solid fa-right-to-bracket nav-icon"></i>
+          <span class="btn-content">
 
-          <span>
-            Log In
+            <i class="fa-solid fa-right-to-bracket nav-icon"></i>
+
+            <span>Log In</span>
+
           </span>
 
         </a>
 
+        <!-- SIGNUP -->
 
-        <!-- Signup -->
+        <a class="auth-link signup-pill" href="/signup">
 
-        <a
-          class="auth-link signup-pill"
-          href="/signup"
-        >
+          <span class="btn-content">
 
-          <i class="fa-solid fa-user-plus nav-icon"></i>
+            <i class="fa-solid fa-user-plus nav-icon"></i>
 
-          <span>
-            Sign Up
+            <span>Sign Up</span>
+
           </span>
 
         </a>
 
       <% } else { %>
 
-        <!-- Logout -->
+        <!-- LOGOUT -->
 
-        <a
-          class="auth-link logout-pill"
-          href="/logout"
-        >
+        <a class="auth-link logout-pill" href="/logout">
 
-          <i class="fa-solid fa-right-from-bracket nav-icon"></i>
+          <span class="btn-content">
 
-          <span>
-            Log Out
+            <i class="fa-solid fa-right-from-bracket nav-icon"></i>
+
+            <span>Log Out</span>
+
           </span>
 
         </a>
@@ -202,5 +129,4 @@
     </div>
 
   </div>
-
 </nav>

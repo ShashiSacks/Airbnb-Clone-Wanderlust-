@@ -1,145 +1,36 @@
 const express = require("express");
-
 const router = express.Router();
-
-const User =
-  require("../models/user.js");
-
-const Listing =
-  require("../models/listing.js");
-
-const { isLoggedIn } =
-  require("../middleware.js");
-
-
-// Add To Wishlist
-
-router.post(
-
-  "/:id",
-
-  isLoggedIn,
-
-  async (req, res) => {
-
-    const listing =
-      await Listing.findById(
-        req.params.id
-      );
-
-    if (!listing) {
-
-      req.flash(
-        "error",
-        "Listing not found!"
-      );
-
-      return res.redirect(
-        "/listings"
-      );
-
-    }
-
-    const user =
-      await User.findById(
-        req.user._id
-      );
-
-    const alreadyExists =
-      user.wishlist.includes(
-        listing._id
-      );
-
-    if (!alreadyExists) {
-
-      user.wishlist.push(
-        listing._id
-      );
-
-      await user.save();
-
-    }
-
-    req.flash(
-      "success",
-      "Listing added to wishlist!"
-    );
-
-    res.redirect(
-      req.get("Referrer") || "/listings"
-    );
-
-  }
-
-);
+const wrapAsync = require("../utils/wrapAsync.js");
+const { isLoggedIn } = require("../middleware.js");
+const wishlistController = require("../controllers/wishlist.js");
 
 
 // Wishlist Page
-
 router.get(
+  "/", 
+  isLoggedIn, 
+  wrapAsync(wishlistController.renderWishlist));
 
-  "/",
 
-  isLoggedIn,
-
-  async (req, res) => {
-
-    const user =
-      await User.findById(
-        req.user._id
-      ).populate("wishlist");
-
-    res.render(
-      "listings/wishlist.ejs",
-      {
-        wishlists: user.wishlist
-      }
-    );
-
-  }
-
-);
+// Add To Wishlist
+router.post(
+  "/:id", 
+  isLoggedIn, 
+  wrapAsync(wishlistController.addToWishlist));
 
 
 // Remove From Wishlist
-
 router.delete(
+  "/:id", 
+  isLoggedIn, 
+  wrapAsync(wishlistController.removeFromWishlist));
 
-  "/:id",
 
-  isLoggedIn,
-
-  async (req, res) => {
-
-    await User.findByIdAndUpdate(
-
-      req.user._id,
-
-      {
-
-        $pull: {
-
-          wishlist:
-            req.params.id
-
-        }
-
-      }
-
-    );
-
-    req.flash(
-      "success",
-      "Listing removed from wishlist!"
-    );
-
-    res.redirect(
-      req.get("Referrer") || "/wishlists"
-    );
-
-  }
-
-);
+// Remove Route Support
+router.post(
+  "/remove/:id", 
+  isLoggedIn, 
+  wrapAsync(wishlistController.removeFromWishlist));
 
 
 module.exports = router;

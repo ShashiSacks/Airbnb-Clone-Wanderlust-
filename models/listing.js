@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const listingSchema = new Schema({
+
   // Title
   title: {
     type: String,
@@ -71,6 +72,7 @@ const listingSchema = new Schema({
     type: String,
   },
 
+  // Country
   country: {
     type: String,
   },
@@ -88,6 +90,7 @@ const listingSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: "User",
   },
+
 });
 
 const Listing = mongoose.model("Listing", listingSchema);

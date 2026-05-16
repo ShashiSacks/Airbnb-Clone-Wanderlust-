@@ -1,80 +1,48 @@
-const express =
-  require("express");
-
-const passport =
-  require("passport");
-
-const router =
-  express.Router();
-
-const wrapAsync =
-  require("../utils/wrapAsync.js");
-
-const {
-  saveRedirectUrl
-} = require("../middleware.js");
-
-const userController =
-  require("../controllers/users.js");
+const express = require("express");
+const passport = require("passport");
+const router = express.Router();
+const wrapAsync = require("../utils/wrapAsync.js");
+const { saveRedirectUrl } = require("../middleware.js");
+const userController = require("../controllers/users.js");
 
 
-// ========================================
-// SIGNUP ROUTES
-// ========================================
-
+// Signup Route
 router
   .route("/signup")
-
-  .get(
-    userController.renderSignupForm
-  )
-
-  .post(
-    wrapAsync(
-      userController.signup
-    )
-  );
+  .get(userController.renderSignupForm)
+  .post(wrapAsync(userController.signup));
 
 
-// ========================================
-// LOGIN ROUTES
-// ========================================
-
+// Login Route
 router
   .route("/login")
-
-  .get(
-    userController.renderLoginForm
-  )
-
+  .get(userController.renderLoginForm)
   .post(
-
     saveRedirectUrl,
+    passport.authenticate("local", {
+      failureRedirect: "/login",
+      failureFlash: true,
+    }),
+    async (req, res) => {
+      req.flash("success", "Logged In Successfully!");
 
-    passport.authenticate(
-      "local",
-      {
-        failureRedirect:
-          "/login",
+      let redirectUrl = res.locals.redirectUrl || "/listings";
 
-        failureFlash: true,
-      }
-    ),
+      delete req.session.redirectUrl;
 
-    userController.login
-
+      // Session Save Fix
+      req.session.save(() => {
+        res.redirect(redirectUrl);
+      });
+    }
   );
 
 
-// ========================================
-// LOGOUT ROUTE
-// ========================================
-
+// Logout Route
 router.get(
   "/logout",
   userController.logout
 );
 
 
-module.exports =
-  router;
+module.exports = router;
