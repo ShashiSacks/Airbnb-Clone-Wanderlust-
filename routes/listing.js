@@ -81,8 +81,9 @@ router
 
     isLoggedIn,
 
-    upload.single(
-      "listing[image]"
+    upload.array(
+      "listing[images]",
+      3
     ),
 
     validateListing,
@@ -221,8 +222,9 @@ router
 
     isOwner,
 
-    upload.single(
-      "listing[image]"
+    upload.array(
+      "listing[images]",
+      3
     ),
 
     validateListing,

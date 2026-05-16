@@ -16,7 +16,7 @@
         </h1>
 
         <p class="edit-subtitle">
-          Update your stay details and photo
+          Update your stay details and photos
         </p>
       </div>
 
@@ -66,25 +66,39 @@
       <div class="mb-4">
 
         <label class="form-label d-block mb-3">
-          Current Photo
+          Current Photos
         </label>
 
         <div class="current-images-container">
 
-          <% if(listing.image && listing.image.url) { %>
+          <% if(listing.images && listing.images.length > 0) { %>
 
-            <div class="current-image-card">
+            <% listing.images.forEach((image, index) => { %>
 
-              <img
-                src="<%= listing.image.url %>"
-                alt="listing_image"
-              >
+              <div class="current-image-card">
 
-              <div class="current-image-label">
-                Featured Photo
+                <img
+                  src="<%= image.url %>"
+                  alt="listing_image"
+                >
+
+                <div class="current-image-label">
+
+                  <% if(index === 0) { %>
+
+                    Featured Photo
+
+                  <% } else { %>
+
+                    Photo <%= index + 1 %>
+
+                  <% } %>
+
+                </div>
+
               </div>
 
-            </div>
+            <% }) %>
 
           <% } else { %>
 
@@ -110,19 +124,49 @@
       <div class="upload-section">
 
         <h5 class="upload-heading">
-          Upload New Photo
+          Upload New Photos
         </h5>
 
         <div class="row">
 
-          <div class="mb-3 col-md-12">
+          <div class="mb-3 col-md-4">
 
             <label class="form-label">
               Featured Photo
             </label>
 
             <input
-              name="listing[image]"
+              name="listing[images]"
+              type="file"
+              class="form-control custom-file-input"
+              accept="image/*"
+            >
+
+          </div>
+
+          <div class="mb-3 col-md-4">
+
+            <label class="form-label">
+              Photo 2
+            </label>
+
+            <input
+              name="listing[images]"
+              type="file"
+              class="form-control custom-file-input"
+              accept="image/*"
+            >
+
+          </div>
+
+          <div class="mb-3 col-md-4">
+
+            <label class="form-label">
+              Photo 3
+            </label>
+
+            <input
+              name="listing[images]"
               type="file"
               class="form-control custom-file-input"
               accept="image/*"

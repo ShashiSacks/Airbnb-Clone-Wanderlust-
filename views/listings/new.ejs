@@ -1,9 +1,11 @@
 <% layout("layouts/boilerplate") %>
 
 <div class="listing-page-bg">
+
   <div class="listing-form-container edit-listing-wrapper">
 
     <div class="edit-heading">
+
       <div class="edit-heading-icon">
         <i class="fa-solid fa-house-circle-check"></i>
       </div>
@@ -17,6 +19,7 @@
           Share your beautiful stay with travelers around the world
         </p>
       </div>
+
     </div>
 
     <form
@@ -150,19 +153,49 @@
       <div class="upload-section mb-4">
 
         <h5 class="upload-heading">
-          Upload Property Photo
+          Upload Property Photos
         </h5>
 
         <div class="row">
 
-          <div class="mb-3 col-md-12">
+          <div class="mb-3 col-md-4">
 
             <label class="form-label">
               Featured Photo
             </label>
 
             <input
-              name="listing[image]"
+              name="listing[images]"
+              type="file"
+              class="form-control custom-file-input"
+              accept="image/*"
+            >
+
+          </div>
+
+          <div class="mb-3 col-md-4">
+
+            <label class="form-label">
+              Photo 2
+            </label>
+
+            <input
+              name="listing[images]"
+              type="file"
+              class="form-control custom-file-input"
+              accept="image/*"
+            >
+
+          </div>
+
+          <div class="mb-3 col-md-4">
+
+            <label class="form-label">
+              Photo 3
+            </label>
+
+            <input
+              name="listing[images]"
               type="file"
               class="form-control custom-file-input"
               accept="image/*"
@@ -173,7 +206,7 @@
         </div>
 
         <small class="text-muted d-block mt-2">
-          Leave blank to use default demo image
+          Leave blank to use default demo images
         </small>
 
       </div>
@@ -246,4 +279,5 @@
     </form>
 
   </div>
+
 </div>
