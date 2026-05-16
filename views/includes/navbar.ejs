@@ -10,8 +10,14 @@
 
     <div class="nav-search-wrapper">
 
-      <form action="/listings/search" method="GET" class="search-form">
+      <form
+        action="/listings/search"
+        method="GET"
+        class="search-form"
+      >
+
         <div class="search-bar">
+
           <i class="fa-solid fa-magnifying-glass"></i>
 
           <input
@@ -22,10 +28,15 @@
             value="<%= searchQuery || '' %>"
           >
 
-          <button class="search-btn" type="submit">
+          <button
+            class="search-btn"
+            type="submit"
+          >
             Search
           </button>
+
         </div>
+
       </form>
 
       <div class="nav-search-pill">
@@ -80,9 +91,10 @@
 
       <% if(!currUser) { %>
 
-        <!-- LOGIN -->
-
-        <a class="auth-link" href="/login">
+        <a
+          class="auth-link"
+          href="/login"
+        >
 
           <span class="btn-content">
 
@@ -94,9 +106,10 @@
 
         </a>
 
-        <!-- SIGNUP -->
-
-        <a class="auth-link signup-pill" href="/signup">
+        <a
+          class="auth-link signup-pill"
+          href="/signup"
+        >
 
           <span class="btn-content">
 
@@ -110,9 +123,10 @@
 
       <% } else { %>
 
-        <!-- LOGOUT -->
-
-        <a class="auth-link logout-pill" href="/logout">
+        <a
+          class="auth-link logout-pill"
+          href="/logout"
+        >
 
           <span class="btn-content">
 

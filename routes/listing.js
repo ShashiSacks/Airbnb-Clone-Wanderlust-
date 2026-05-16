@@ -195,7 +195,7 @@ router.get(
         });
 
       res.render(
-        "listings/myListings",
+        "listings/mylistings",
         {
           listings,
         }
