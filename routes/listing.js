@@ -191,10 +191,9 @@ router.get(
             req.user._id,
         });
 
-      res.render(
-        "listings/myListings.ejs",
-        { listings }
-      );
+        res.render("listings/myListings", {
+  listings,
+});
     }
   )
 );
