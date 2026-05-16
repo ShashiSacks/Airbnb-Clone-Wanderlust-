@@ -175,7 +175,7 @@ passport.use(
         process.env.GOOGLE_CLIENT_SECRET,
 
       callbackURL:
-        "https://airbnb-clone-nine-green.vercel.app/auth/google/callback",
+        process.env.GOOGLE_CALLBACK_URL,
     },
 
     async (
@@ -455,10 +455,10 @@ app.post(
           mode: "payment",
 
           success_url:
-            "https://airbnb-clone-nine-green.vercel.app/success",
+            `${process.env.BASE_URL}/listings`,
 
           cancel_url:
-            "https://airbnb-clone-nine-green.vercel.app/cancel",
+            `${process.env.BASE_URL}/listings`,
         });
 
       res.redirect(
