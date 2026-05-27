@@ -10,16 +10,9 @@
 
     <div class="nav-search-wrapper">
 
-      <form
-        action="/listings/search"
-        method="GET"
-        class="search-form"
-      >
-
+      <form action="/listings/search" method="GET" class="search-form">
         <div class="search-bar">
-
           <i class="fa-solid fa-magnifying-glass"></i>
-
           <input
             type="text"
             name="query"
@@ -27,34 +20,20 @@
             class="search-input"
             value="<%= searchQuery || '' %>"
           >
-
-          <button
-            class="search-btn"
-            type="submit"
-          >
-            Search
-          </button>
-
+          <button class="search-btn" type="submit">Search</button>
         </div>
-
       </form>
 
       <div class="nav-search-pill">
 
-        <a
-          class="pill-link <%= requestPath === '/listings' ? 'active-nav-link' : '' %>"
-          href="/listings"
-        >
+        <a class="pill-link <%= requestPath === '/listings' ? 'active-nav-link' : '' %>" href="/listings">
           <i class="fa-solid fa-compass nav-icon"></i>
           <span>Discover</span>
         </a>
 
         <span class="pill-divider"></span>
 
-        <a
-          class="pill-link <%= requestPath === '/listings/new' ? 'active-nav-link' : '' %>"
-          href="/listings/new"
-        >
+        <a class="pill-link <%= requestPath === '/listings/new' ? 'active-nav-link' : '' %>" href="/listings/new">
           <i class="fa-solid fa-circle-plus nav-icon"></i>
           <span>Add Listing</span>
         </a>
@@ -63,20 +42,14 @@
 
           <span class="pill-divider"></span>
 
-          <a
-            class="pill-link <%= requestPath === '/listings/my-listings' ? 'active-nav-link' : '' %>"
-            href="/listings/my-listings"
-          >
+          <a class="pill-link <%= requestPath === '/listings/my-listings' ? 'active-nav-link' : '' %>" href="/listings/my-listings">
             <i class="fa-solid fa-house nav-icon"></i>
             <span>Your Listings</span>
           </a>
 
           <span class="pill-divider"></span>
 
-          <a
-            class="pill-link <%= requestPath === '/wishlists' ? 'active-nav-link' : '' %>"
-            href="/wishlists"
-          >
+          <a class="pill-link <%= requestPath === '/wishlists' ? 'active-nav-link' : '' %>" href="/wishlists">
             <i class="fa-regular fa-heart nav-icon"></i>
             <span>Wishlists</span>
           </a>
@@ -91,51 +64,27 @@
 
       <% if(!currUser) { %>
 
-        <a
-          class="auth-link"
-          href="/login"
-        >
-
+        <a class="auth-link" href="/login">
           <span class="btn-content">
-
             <i class="fa-solid fa-right-to-bracket nav-icon"></i>
-
             <span>Log In</span>
-
           </span>
-
         </a>
 
-        <a
-          class="auth-link signup-pill"
-          href="/signup"
-        >
-
+        <a class="auth-link signup-pill" href="/signup">
           <span class="btn-content">
-
             <i class="fa-solid fa-user-plus nav-icon"></i>
-
             <span>Sign Up</span>
-
           </span>
-
         </a>
 
       <% } else { %>
 
-        <a
-          class="auth-link logout-pill"
-          href="/logout"
-        >
-
+        <a class="auth-link logout-pill" href="/logout">
           <span class="btn-content">
-
             <i class="fa-solid fa-right-from-bracket nav-icon"></i>
-
             <span>Log Out</span>
-
           </span>
-
         </a>
 
       <% } %>

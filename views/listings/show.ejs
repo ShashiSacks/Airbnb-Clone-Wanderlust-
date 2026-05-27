@@ -1,104 +1,261 @@
 <% layout("layouts/boilerplate") %>
 
 <div class="show-wrapper">
+
   <div class="show-card">
 
-    <h1 class="listing-title"><%= listing.title %></h1>
+    <!-- TITLE -->
+
+    <h1 class="listing-title">
+      <%= listing.title %>
+    </h1>
+
+
+    <!-- IMAGE GALLERY -->
 
     <div class="listing-gallery">
 
-      <div class="main-image">
-        <img
-          src="<%= listing.images && listing.images.length > 0 ? listing.images[0].url : '/default.jpg' %>"
-          alt="listing_image"
-          class="gallery-img"
-          onclick="openImage(this.src)"
-          onerror="this.src='/default.jpg'"
-        >
-      </div>
+      <% if (
+        listing.images &&
+        listing.images.length > 0
+      ) { %>
 
-      <div class="side-images">
-        <% if(listing.images && listing.images.length > 1) { %>
+        <!-- MAIN IMAGE -->
+
+        <div class="main-image">
+
           <img
-            src="<%= listing.images[1].url %>"
+            src="<%= listing.images[0].url %>"
             alt="listing_image"
             class="gallery-img"
             onclick="openImage(this.src)"
             onerror="this.src='/default.jpg'"
           >
+
+        </div>
+
+
+        <!-- SIDE IMAGES -->
+
+        <% if (listing.images.length > 1) { %>
+
+          <div class="side-images">
+
+            <% for (
+              let i = 1;
+              i < listing.images.length;
+              i++
+            ) { %>
+
+              <img
+                src="<%= listing.images[i].url %>"
+                alt="listing_image"
+                class="gallery-img"
+                onclick="openImage(this.src)"
+                onerror="this.src='/default.jpg'"
+              >
+
+            <% } %>
+
+          </div>
+
         <% } %>
-        <% if(listing.images && listing.images.length > 2) { %>
+
+      <% } else { %>
+
+        <!-- DEFAULT IMAGE -->
+
+        <div class="main-image">
+
           <img
-            src="<%= listing.images[2].url %>"
-            alt="listing_image"
+            src="/default.jpg"
+            alt="default_image"
             class="gallery-img"
-            onclick="openImage(this.src)"
-            onerror="this.src='/default.jpg'"
           >
-        <% } %>
-      </div>
+
+        </div>
+
+      <% } %>
 
     </div>
+
+
+    <!-- LISTING INFO -->
 
     <div class="listing-info">
 
       <p class="owner-text">
-        Owned by <i><%= listing.owner ? listing.owner.username : "Anonymous" %></i>
+
+        Owned by
+
+        <i>
+          <%= listing.owner ? listing.owner.username : "Anonymous" %>
+        </i>
+
       </p>
+
 
       <p class="listing-meta">
-        <b>Price:</b> ₹<%= listing.price ? listing.price.toLocaleString("en-IN") : "N/A" %> / night
+
+        <b>Price:</b>
+
+        ₹<%= listing.price ? listing.price.toLocaleString("en-IN") : "N/A" %>
+
+        / night
+
       </p>
+
 
       <p class="listing-meta">
-        <b>Location:</b> <%= listing.location %>
+
+        <b>Location:</b>
+
+        <%= listing.location %>
+
       </p>
+
 
       <p class="listing-meta">
-        <b>Country:</b> <%= listing.country %>
+
+        <b>Country:</b>
+
+        <%= listing.country %>
+
       </p>
 
-      <p class="listing-description"><%= listing.description %></p>
+
+      <p class="listing-description">
+
+        <%= listing.description %>
+
+      </p>
+
+
+      <!-- MAP SECTION -->
 
       <div class="map-section">
-        <h2 class="map-heading">Where you'll be</h2>
-        <p class="map-location"><%= listing.location %>, <%= listing.country %></p>
-        <div id="map"></div>
+
+        <h2 class="map-heading">
+          Where you'll be
+        </h2>
+
+        <p class="map-location">
+
+          <%= listing.location %>,
+          <%= listing.country %>
+
+        </p>
+
+
+        <!-- MAP CONTAINER -->
+
+        <div id="map">
+
+          <div class="map-loading-box">
+
+            <i class="fa-solid fa-location-dot"></i>
+
+            <p>
+              Loading map...
+            </p>
+
+          </div>
+
+        </div>
+
       </div>
 
     </div>
 
+
+    <!-- ACTION BUTTONS -->
+
     <div class="show-actions">
 
       <div class="book-now-wrapper">
-        <% if(currUser) { %>
-          <form method="POST" action="/create-checkout-session/<%= listing._id %>">
-            <button type="submit" class="btn btn-book-now btn-fixed">Book Now</button>
+
+        <% if (currUser) { %>
+
+          <form
+            method="POST"
+            action="/create-checkout-session/<%= listing._id %>"
+          >
+
+            <button
+              type="submit"
+              class="btn btn-book-now btn-fixed"
+            >
+              Book Now
+            </button>
+
           </form>
+
         <% } else { %>
-          <a href="/login?message=loginRequired" class="btn btn-book-now btn-fixed">Book Now</a>
+
+          <a
+            href="/login?message=loginRequired"
+            class="btn btn-book-now btn-fixed"
+          >
+            Book Now
+          </a>
+
         <% } %>
+
       </div>
 
-      <% if(currUser && listing.owner && listing.owner._id.equals(currUser._id)) { %>
+
+      <% if (
+        currUser &&
+        listing.owner &&
+        listing.owner._id.equals(currUser._id)
+      ) { %>
+
         <div class="edit-delete-wrapper">
-          <a href="/listings/<%= listing._id %>/edit" class="btn btn-primary-action btn-fixed">Edit</a>
-          <form method="POST" action="/listings/<%= listing._id %>?_method=DELETE">
-            <button type="submit" class="btn btn-danger-action btn-fixed">Delete</button>
+
+          <a
+            href="/listings/<%= listing._id %>/edit"
+            class="btn btn-primary-action btn-fixed"
+          >
+            Edit
+          </a>
+
+
+          <form
+            method="POST"
+            action="/listings/<%= listing._id %>?_method=DELETE"
+          >
+
+            <button
+              type="submit"
+              class="btn btn-danger-action btn-fixed"
+            >
+              Delete
+            </button>
+
           </form>
+
         </div>
+
       <% } %>
 
     </div>
 
   </div>
+
 </div>
+
 
 <hr class="show-divider">
 
+
+<!-- REVIEW SECTION -->
+
 <div class="review-container">
 
-  <h2 class="text-center mb-4">Leave a Review</h2>
+  <h2 class="text-center mb-4">
+    Leave a Review
+  </h2>
+
 
   <form
     method="POST"
@@ -108,24 +265,98 @@
   >
 
     <div class="review-field text-center mb-4">
-      <label class="d-block mb-3">Rating</label>
+
+      <label class="d-block mb-3">
+        Rating
+      </label>
+
+
       <fieldset class="starability-slot">
-        <input type="radio" id="no-rate" class="input-no-rate" name="review[rating]" value="0" checked aria-label="No rating." />
-        <input type="radio" id="first-rate1" name="review[rating]" value="1">
-        <label for="first-rate1" title="Terrible">1 star</label>
-        <input type="radio" id="first-rate2" name="review[rating]" value="2">
-        <label for="first-rate2" title="Not good">2 stars</label>
-        <input type="radio" id="first-rate3" name="review[rating]" value="3">
-        <label for="first-rate3" title="Average">3 stars</label>
-        <input type="radio" id="first-rate4" name="review[rating]" value="4">
-        <label for="first-rate4" title="Very good">4 stars</label>
-        <input type="radio" id="first-rate5" name="review[rating]" value="5">
-        <label for="first-rate5" title="Amazing">5 stars</label>
+
+        <input
+          type="radio"
+          id="no-rate"
+          class="input-no-rate"
+          name="review[rating]"
+          value="0"
+          checked
+          aria-label="No rating."
+        >
+
+        <input
+          type="radio"
+          id="first-rate1"
+          name="review[rating]"
+          value="1"
+        >
+
+        <label for="first-rate1">
+          1 star
+        </label>
+
+
+        <input
+          type="radio"
+          id="first-rate2"
+          name="review[rating]"
+          value="2"
+        >
+
+        <label for="first-rate2">
+          2 stars
+        </label>
+
+
+        <input
+          type="radio"
+          id="first-rate3"
+          name="review[rating]"
+          value="3"
+        >
+
+        <label for="first-rate3">
+          3 stars
+        </label>
+
+
+        <input
+          type="radio"
+          id="first-rate4"
+          name="review[rating]"
+          value="4"
+        >
+
+        <label for="first-rate4">
+          4 stars
+        </label>
+
+
+        <input
+          type="radio"
+          id="first-rate5"
+          name="review[rating]"
+          value="5"
+        >
+
+        <label for="first-rate5">
+          5 stars
+        </label>
+
       </fieldset>
+
     </div>
 
+
     <div class="review-field text-center mb-4">
-      <label for="comment" class="d-block mb-2">Comments</label>
+
+      <label
+        for="comment"
+        class="d-block mb-2"
+      >
+        Comments
+      </label>
+
+
       <textarea
         name="review[comment]"
         id="comment"
@@ -134,74 +365,173 @@
         class="center-input form-control"
         required
       ></textarea>
-      <div class="invalid-feedback">Please add some comments for review</div>
+
+      <div class="invalid-feedback">
+        Please add some comments for review
+      </div>
+
     </div>
 
+
     <div class="text-center mt-3">
-      <button type="submit" class="btn btn-submit-action btn-fixed">Post Review</button>
+
+      <button
+        type="submit"
+        class="btn btn-submit-action btn-fixed"
+      >
+        Post Review
+      </button>
+
     </div>
 
   </form>
 
+
   <hr class="my-5">
 
-  <h2 class="text-center mb-2">All Reviews</h2>
+
+  <!-- ALL REVIEWS -->
+
+  <h2 class="text-center mb-2">
+    All Reviews
+  </h2>
+
 
   <% let totalReviews = listing.reviews.length; %>
+
   <div class="text-center mb-5">
-    <p class="text-muted"><%= totalReviews %> Reviews</p>
+
+    <p class="text-muted">
+      <%= totalReviews %> Reviews
+    </p>
+
   </div>
+
 
   <div class="row justify-content-center">
 
     <% for (let review of listing.reviews) { %>
+
       <div class="col-md-5 mb-4">
+
         <div class="card review-card shadow-sm">
+
           <div class="card-body text-center">
 
             <h5 class="card-title">
+
               @<%= review.author ? review.author.username : "Anonymous" %>
+
             </h5>
 
-            <p class="starability-result" data-rating="<%= review.rating %>">
-              Rated: <%= review.rating %> stars
+
+            <p
+              class="starability-result"
+              data-rating="<%= review.rating %>"
+            >
+
+              Rated:
+              <%= review.rating %> stars
+
             </p>
 
-            <p class="card-text"><%= review.comment %></p>
 
-            <% if(currUser && review.author && review.author._id.equals(currUser._id)) { %>
+            <p class="card-text">
+              <%= review.comment %>
+            </p>
+
+
+            <% if (
+              currUser &&
+              review.author &&
+              review.author._id.equals(currUser._id)
+            ) { %>
+
               <div class="edit-delete-wrapper">
-                <a href="/listings/<%= listing._id %>/reviews/<%= review._id %>/edit" class="btn btn-primary-action">Edit</a>
-                <form method="POST" action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE">
-                  <button class="btn btn-danger-action">Delete</button>
+
+                <a
+                  href="/listings/<%= listing._id %>/reviews/<%= review._id %>/edit"
+                  class="btn btn-primary-action"
+                >
+                  Edit
+                </a>
+
+
+                <form
+                  method="POST"
+                  action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE"
+                >
+
+                  <button class="btn btn-danger-action">
+                    Delete
+                  </button>
+
                 </form>
+
               </div>
+
             <% } %>
 
           </div>
+
         </div>
+
       </div>
+
     <% } %>
 
   </div>
 
 </div>
 
+
+<!-- MAP DATA -->
+
 <script>
-  const listing = {
-    title: "<%= listing.title %>",
-    location: "<%= listing.location %>",
-    country: "<%= listing.country %>",
+
+  const listingData = {
+
+    title:
+      "<%= listing.title %>",
+
+    location:
+      "<%= listing.location %>",
+
+    country:
+      "<%= listing.country %>",
+
     geometry: {
-      coordinates: [
-        <%= listing.geometry.coordinates[0] %>,
-        <%= listing.geometry.coordinates[1] %>
-      ]
+
+      coordinates:
+        <%- JSON.stringify(
+          listing.geometry?.coordinates || null
+        ) %>
+
     }
+
   };
+
 </script>
 
-<div id="imageModal" class="image-modal">
-  <span class="close-modal" onclick="closeImage()">&times;</span>
-  <img class="modal-content-img" id="popupImage">
+
+<!-- IMAGE MODAL -->
+
+<div
+  id="imageModal"
+  class="image-modal"
+>
+
+  <span
+    class="close-modal"
+    onclick="closeImage()"
+  >
+    &times;
+  </span>
+
+
+  <img
+    class="modal-content-img"
+    id="popupImage"
+  >
+
 </div>
