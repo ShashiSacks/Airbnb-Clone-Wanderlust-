@@ -6,9 +6,6 @@ const multerStorageCloudinary =
 const CloudinaryStorage =
   multerStorageCloudinary.CloudinaryStorage;
 
-
-// CLOUDINARY CONFIG
-
 cloudinary.config({
 
   cloud_name:
@@ -20,9 +17,6 @@ cloudinary.config({
   api_secret:
     process.env.CLOUD_API_SECRET,
 });
-
-
-// STORAGE CONFIG
 
 const storage =
   new CloudinaryStorage({
@@ -41,7 +35,6 @@ const storage =
       ],
     },
   });
-
 
 module.exports = {
 
