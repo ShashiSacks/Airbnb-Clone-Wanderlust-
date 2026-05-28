@@ -14,31 +14,33 @@ module.exports.listingSchema = joi.object({
 
     category: joi.string().valid(
 
-  "Trending",
+      "Trending",
 
-  "Rooms",
+      "Rooms",
 
-  "Iconic Cities",
+      "Iconic Cities",
 
-  "Mountains",
+      "Mountains",
 
-  "Castles",
+      "Castles",
 
-  "Amazing Pools",
+      "Amazing Pools",
 
-  "Camping",
+      "Camping",
 
-  "Farms",
+      "Farms",
 
-  "Arctic",
+      "Arctic",
 
-  "Domes",
+      "Domes",
 
-  "Boats",
+      "Boats",
 
-  "Containers"
+      "Containers"
 
-).required(),
+    ).required(),
+
+    isTrending: joi.boolean(),
 
     price: joi.number().required().min(0),
 
@@ -53,12 +55,14 @@ module.exports.listingSchema = joi.object({
           filename: joi.string().allow("", null),
 
         })
+
       )
       .optional(),
 
   }).required(),
 
 });
+
 
 
 module.exports.reviewSchema = joi.object({
