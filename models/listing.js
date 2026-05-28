@@ -17,11 +17,10 @@ const listingSchema = new Schema({
 
   // Category
   category: {
+
     type: String,
 
     enum: [
-
-      "Trending",
 
       "Rooms",
 
@@ -47,10 +46,20 @@ const listingSchema = new Schema({
 
     ],
 
-    default: "Trending",
+    default: "Rooms",
 
     required: true,
   },
+
+
+  // REAL TRENDING SYSTEM
+  isTrending: {
+
+    type: Boolean,
+
+    default: false,
+  },
+
 
   // Images
   images: [
@@ -74,6 +83,7 @@ const listingSchema = new Schema({
     },
   ],
 
+
   // Geometry For Leaflet Map
   geometry: {
 
@@ -94,20 +104,24 @@ const listingSchema = new Schema({
     },
   },
 
+
   // Price
   price: {
     type: Number,
   },
+
 
   // Location
   location: {
     type: String,
   },
 
+
   // Country
   country: {
     type: String,
   },
+
 
   // Reviews
   reviews: [
@@ -120,6 +134,7 @@ const listingSchema = new Schema({
       ref: "Review",
     },
   ],
+
 
   // Owner
   owner: {

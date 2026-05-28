@@ -7,7 +7,10 @@ const defaultImage = {
 };
 
 
+// =======================================================
 // INDEX ROUTE
+// =======================================================
+
 module.exports.index = async (
   req,
   res,
@@ -19,9 +22,20 @@ module.exports.index = async (
     const listings =
       await Listing.find({});
 
+
     res.render(
+
       "listings/index",
-      { listings }
+
+      {
+
+        listings,
+
+        selectedCategory: null,
+
+        searchQuery: "",
+
+      }
     );
 
   } catch (err) {
@@ -36,7 +50,10 @@ module.exports.index = async (
 };
 
 
+// =======================================================
 // NEW FORM ROUTE
+// =======================================================
+
 module.exports.renderNewForm = (
   req,
   res
@@ -48,7 +65,10 @@ module.exports.renderNewForm = (
 };
 
 
+// =======================================================
 // SHOW ROUTE
+// =======================================================
+
 module.exports.showListing = async (
   req,
   res,
@@ -59,6 +79,7 @@ module.exports.showListing = async (
 
     const { id } =
       req.params;
+
 
     const listing =
       await Listing.findById(id)
@@ -78,9 +99,12 @@ module.exports.showListing = async (
     if (!listing) {
 
       req.flash(
+
         "error",
+
         "Listing you requested does not exist!"
       );
+
 
       return res.redirect(
         "/listings"
@@ -89,7 +113,9 @@ module.exports.showListing = async (
 
 
     res.render(
+
       "listings/show",
+
       { listing }
     );
 
@@ -105,7 +131,10 @@ module.exports.showListing = async (
 };
 
 
+// =======================================================
 // CREATE ROUTE
+// =======================================================
+
 module.exports.createListing = async (
   req,
   res,
@@ -120,13 +149,27 @@ module.exports.createListing = async (
       );
 
 
-    // IMAGES HANDLING
+    // =======================================================
+    // REAL TRENDING SYSTEM
+    // =======================================================
+
+    newListing.isTrending =
+      req.body.listing.isTrending === "true";
+
+
+    // =======================================================
+    // IMAGE HANDLING
+    // =======================================================
+
     newListing.images = [];
 
 
     // Uploaded Images
+
     if (
+
       req.files &&
+
       req.files.length > 0
     ) {
 
@@ -145,7 +188,8 @@ module.exports.createListing = async (
     }
 
 
-    // Default Image If No Upload
+    // Default Image
+
     if (
       newListing.images.length === 0
     ) {
@@ -156,7 +200,10 @@ module.exports.createListing = async (
     }
 
 
-    // DYNAMIC GEOCODING
+    // =======================================================
+    // GEOCODING
+    // =======================================================
+
     const searchText =
       `${newListing.location}, ${newListing.country}`;
 
@@ -172,9 +219,12 @@ module.exports.createListing = async (
       const controller =
         new AbortController();
 
+
       const timeout =
         setTimeout(() => {
+
           controller.abort();
+
         }, 7000);
 
 
@@ -189,6 +239,7 @@ module.exports.createListing = async (
               controller.signal,
 
             headers: {
+
               "User-Agent":
                 "WanderLust-App",
             },
@@ -210,7 +261,9 @@ module.exports.createListing = async (
 
 
       if (
+
         geoData &&
+
         geoData.length > 0
       ) {
 
@@ -219,6 +272,7 @@ module.exports.createListing = async (
             geoData[0].lat
           );
 
+
         const longitude =
           parseFloat(
             geoData[0].lon
@@ -226,7 +280,9 @@ module.exports.createListing = async (
 
 
         if (
+
           !isNaN(latitude) &&
+
           !isNaN(longitude)
         ) {
 
@@ -235,7 +291,9 @@ module.exports.createListing = async (
             type: "Point",
 
             coordinates: [
+
               longitude,
+
               latitude,
             ],
           };
@@ -245,23 +303,33 @@ module.exports.createListing = async (
     } catch (geoErr) {
 
       console.log(
+
         "GEOCODING ERROR:",
+
         geoErr.message
       );
     }
 
 
+    // =======================================================
     // OWNER
+    // =======================================================
+
     newListing.owner =
       req.user._id;
 
 
+    // =======================================================
     // SAVE
+    // =======================================================
+
     await newListing.save();
 
 
     req.flash(
+
       "success",
+
       "New listing created!"
     );
 
@@ -282,7 +350,10 @@ module.exports.createListing = async (
 };
 
 
+// =======================================================
 // EDIT FORM ROUTE
+// =======================================================
+
 module.exports.renderEditForm = async (
   req,
   res,
@@ -294,6 +365,7 @@ module.exports.renderEditForm = async (
     const { id } =
       req.params;
 
+
     const listing =
       await Listing.findById(id);
 
@@ -301,9 +373,12 @@ module.exports.renderEditForm = async (
     if (!listing) {
 
       req.flash(
+
         "error",
+
         "Listing does not exist!"
       );
+
 
       return res.redirect(
         "/listings"
@@ -312,7 +387,9 @@ module.exports.renderEditForm = async (
 
 
     res.render(
+
       "listings/edit",
+
       { listing }
     );
 
@@ -328,7 +405,10 @@ module.exports.renderEditForm = async (
 };
 
 
+// =======================================================
 // UPDATE ROUTE
+// =======================================================
+
 module.exports.updateListing = async (
   req,
   res,
@@ -340,6 +420,7 @@ module.exports.updateListing = async (
     const { id } =
       req.params;
 
+
     const listing =
       await Listing.findById(id);
 
@@ -347,9 +428,12 @@ module.exports.updateListing = async (
     if (!listing) {
 
       req.flash(
+
         "error",
+
         "Listing not found!"
       );
+
 
       return res.redirect(
         "/listings"
@@ -357,29 +441,50 @@ module.exports.updateListing = async (
     }
 
 
+    // =======================================================
     // UPDATE FIELDS
+    // =======================================================
+
     listing.title =
       req.body.listing.title;
+
 
     listing.description =
       req.body.listing.description;
 
+
     listing.price =
       req.body.listing.price;
+
 
     listing.country =
       req.body.listing.country;
 
+
     listing.location =
       req.body.listing.location;
+
 
     listing.category =
       req.body.listing.category;
 
 
+    // =======================================================
+    // REAL TRENDING SYSTEM
+    // =======================================================
+
+    listing.isTrending =
+      req.body.listing.isTrending === "true";
+
+
+    // =======================================================
     // UPDATE IMAGES
+    // =======================================================
+
     if (
+
       req.files &&
+
       req.files.length > 0
     ) {
 
@@ -401,7 +506,10 @@ module.exports.updateListing = async (
     }
 
 
+    // =======================================================
     // GEOCODING
+    // =======================================================
+
     const searchText =
       `${listing.location}, ${listing.country}`;
 
@@ -417,9 +525,12 @@ module.exports.updateListing = async (
       const controller =
         new AbortController();
 
+
       const timeout =
         setTimeout(() => {
+
           controller.abort();
+
         }, 7000);
 
 
@@ -434,6 +545,7 @@ module.exports.updateListing = async (
               controller.signal,
 
             headers: {
+
               "User-Agent":
                 "WanderLust-App",
             },
@@ -455,7 +567,9 @@ module.exports.updateListing = async (
 
 
       if (
+
         geoData &&
+
         geoData.length > 0
       ) {
 
@@ -464,6 +578,7 @@ module.exports.updateListing = async (
             geoData[0].lat
           );
 
+
         const longitude =
           parseFloat(
             geoData[0].lon
@@ -471,7 +586,9 @@ module.exports.updateListing = async (
 
 
         if (
+
           !isNaN(latitude) &&
+
           !isNaN(longitude)
         ) {
 
@@ -480,7 +597,9 @@ module.exports.updateListing = async (
             type: "Point",
 
             coordinates: [
+
               longitude,
+
               latitude,
             ],
           };
@@ -490,18 +609,25 @@ module.exports.updateListing = async (
     } catch (geoErr) {
 
       console.log(
+
         "GEOCODING ERROR:",
+
         geoErr.message
       );
     }
 
 
+    // =======================================================
     // SAVE
+    // =======================================================
+
     await listing.save();
 
 
     req.flash(
+
       "success",
+
       "Listing updated successfully!"
     );
 
@@ -522,7 +648,10 @@ module.exports.updateListing = async (
 };
 
 
+// =======================================================
 // DELETE ROUTE
+// =======================================================
+
 module.exports.destroyListing = async (
   req,
   res,
@@ -534,6 +663,7 @@ module.exports.destroyListing = async (
     const { id } =
       req.params;
 
+
     const deletedListing =
       await Listing.findByIdAndDelete(id);
 
@@ -541,9 +671,12 @@ module.exports.destroyListing = async (
     if (!deletedListing) {
 
       req.flash(
+
         "error",
+
         "Listing not found!"
       );
+
 
       return res.redirect(
         "/listings"
@@ -552,7 +685,9 @@ module.exports.destroyListing = async (
 
 
     req.flash(
+
       "success",
+
       "Listing deleted successfully!"
     );
 

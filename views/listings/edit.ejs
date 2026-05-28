@@ -1,17 +1,37 @@
 <% layout("layouts/boilerplate") %>
 
 <div class="listing-page-bg">
+
   <div class="listing-form-container edit-listing-wrapper">
 
+
+    <!-- HEADING -->
+
     <div class="edit-heading">
+
       <div class="edit-heading-icon">
+
         <i class="fa-solid fa-pen-to-square"></i>
+
       </div>
+
       <div>
-        <h1 class="listing-form-title">Edit Your Listing</h1>
-        <p class="edit-subtitle">Update your stay details and photos</p>
+
+        <h1 class="listing-form-title">
+          Edit Your Listing
+        </h1>
+
+        <p class="edit-subtitle">
+          Update your stay details and photos
+        </p>
+
       </div>
+
     </div>
+
+
+
+    <!-- FORM -->
 
     <form
       method="POST"
@@ -21,8 +41,15 @@
       class="needs-validation"
     >
 
+
+      <!-- TITLE -->
+
       <div class="mb-4">
-        <label class="form-label">Title</label>
+
+        <label class="form-label">
+          Title
+        </label>
+
         <input
           name="listing[title]"
           value="<%= listing.title %>"
@@ -31,10 +58,19 @@
           placeholder="Add a catchy title"
           required
         >
+
       </div>
 
+
+
+      <!-- DESCRIPTION -->
+
       <div class="mb-4">
-        <label class="form-label">Description</label>
+
+        <label class="form-label">
+          Description
+        </label>
+
         <textarea
           name="listing[description]"
           class="form-control custom-textarea"
@@ -42,76 +78,299 @@
           placeholder="Enter a short description"
           required
         ><%= listing.description %></textarea>
+
       </div>
 
+
+
+      <!-- CATEGORY -->
+
       <div class="mb-4">
-        <label class="form-label d-block mb-3">Current Photos</label>
+
+        <label class="form-label">
+          Category
+        </label>
+
+        <select
+          name="listing[category]"
+          class="form-select custom-input"
+          required
+        >
+
+          <option
+            value="Rooms"
+            <%= listing.category === "Rooms" ? "selected" : "" %>
+          >
+            🛏️ Rooms
+          </option>
+
+          <option
+            value="Iconic Cities"
+            <%= listing.category === "Iconic Cities" ? "selected" : "" %>
+          >
+            🌆 Iconic Cities
+          </option>
+
+          <option
+            value="Mountains"
+            <%= listing.category === "Mountains" ? "selected" : "" %>
+          >
+            ⛰️ Mountains
+          </option>
+
+          <option
+            value="Castles"
+            <%= listing.category === "Castles" ? "selected" : "" %>
+          >
+            🏰 Castles
+          </option>
+
+          <option
+            value="Amazing Pools"
+            <%= listing.category === "Amazing Pools" ? "selected" : "" %>
+          >
+            🏊 Amazing Pools
+          </option>
+
+          <option
+            value="Camping"
+            <%= listing.category === "Camping" ? "selected" : "" %>
+          >
+            🏕️ Camping
+          </option>
+
+          <option
+            value="Farms"
+            <%= listing.category === "Farms" ? "selected" : "" %>
+          >
+            🌾 Farms
+          </option>
+
+          <option
+            value="Arctic"
+            <%= listing.category === "Arctic" ? "selected" : "" %>
+          >
+            ❄️ Arctic
+          </option>
+
+          <option
+            value="Domes"
+            <%= listing.category === "Domes" ? "selected" : "" %>
+          >
+            🛖 Domes
+          </option>
+
+          <option
+            value="Boats"
+            <%= listing.category === "Boats" ? "selected" : "" %>
+          >
+            ⛵ Boats
+          </option>
+
+          <option
+            value="Containers"
+            <%= listing.category === "Containers" ? "selected" : "" %>
+          >
+            📦 Containers
+          </option>
+
+        </select>
+
+      </div>
+
+
+
+      <!-- TRENDING OPTION -->
+
+      <div class="mb-4">
+
+        <label class="form-label">
+          Show In Trending?
+        </label>
+
+        <select
+          name="listing[isTrending]"
+          class="form-select custom-input"
+        >
+
+          <option
+            value="false"
+            <%= !listing.isTrending ? "selected" : "" %>
+          >
+            No
+          </option>
+
+          <option
+            value="true"
+            <%= listing.isTrending ? "selected" : "" %>
+          >
+            Yes
+          </option>
+
+        </select>
+
+        <small class="text-muted d-block mt-2">
+
+          Trending listings will appear in both:
+          Discover + Trending section
+
+        </small>
+
+      </div>
+
+
+
+      <!-- CURRENT PHOTOS -->
+
+      <div class="mb-4">
+
+        <label class="form-label d-block mb-3">
+          Current Photos
+        </label>
+
         <div class="current-images-container">
 
-          <% if(listing.images && listing.images.length > 0) { %>
+
+          <% if(
+            listing.images &&
+            listing.images.length > 0
+          ) { %>
+
             <% listing.images.forEach((image, index) => { %>
+
               <div class="current-image-card">
-                <img src="<%= image.url %>" alt="listing_image">
+
+                <img
+                  src="<%= image.url %>"
+                  alt="listing_image"
+                >
+
                 <div class="current-image-label">
+
                   <% if(index === 0) { %>
+
                     Featured Photo
+
                   <% } else { %>
+
                     Photo <%= index + 1 %>
+
                   <% } %>
+
                 </div>
+
               </div>
+
             <% }) %>
+
           <% } else { %>
+
             <div class="current-image-card">
-              <img src="/default.jpg" alt="default_image">
-              <div class="current-image-label">Default Photo</div>
+
+              <img
+                src="/default.jpg"
+                alt="default_image"
+              >
+
+              <div class="current-image-label">
+                Default Photo
+              </div>
+
             </div>
+
           <% } %>
 
         </div>
+
       </div>
 
+
+
+      <!-- IMAGE UPLOAD -->
+
       <div class="upload-section">
-        <h5 class="upload-heading">Upload New Photos</h5>
+
+        <h5 class="upload-heading">
+          Upload New Photos
+        </h5>
+
         <div class="row">
 
-          <div class="mb-3 col-md-4">
-            <label class="form-label">Featured Photo</label>
-            <input
-              name="listing[images]"
-              type="file"
-              class="form-control custom-file-input"
-              accept="image/*"
-            >
-          </div>
+
+          <!-- PHOTO 1 -->
 
           <div class="mb-3 col-md-4">
-            <label class="form-label">Photo 2</label>
+
+            <label class="form-label">
+              Featured Photo
+            </label>
+
             <input
               name="listing[images]"
               type="file"
               class="form-control custom-file-input"
               accept="image/*"
             >
+
           </div>
 
+
+
+          <!-- PHOTO 2 -->
+
           <div class="mb-3 col-md-4">
-            <label class="form-label">Photo 3</label>
+
+            <label class="form-label">
+              Photo 2
+            </label>
+
             <input
               name="listing[images]"
               type="file"
               class="form-control custom-file-input"
               accept="image/*"
             >
+
+          </div>
+
+
+
+          <!-- PHOTO 3 -->
+
+          <div class="mb-3 col-md-4">
+
+            <label class="form-label">
+              Photo 3
+            </label>
+
+            <input
+              name="listing[images]"
+              type="file"
+              class="form-control custom-file-input"
+              accept="image/*"
+            >
+
           </div>
 
         </div>
+
       </div>
+
+
+
+      <!-- PRICE + COUNTRY + LOCATION -->
 
       <div class="row mt-4">
 
+
+        <!-- PRICE -->
+
         <div class="mb-4 col-md-4">
-          <label class="form-label">Price (₹ / night)</label>
+
+          <label class="form-label">
+            Price (₹ / night)
+          </label>
+
           <input
             name="listing[price]"
             value="<%= listing.price %>"
@@ -119,10 +378,19 @@
             class="form-control custom-input"
             required
           >
+
         </div>
 
+
+
+        <!-- COUNTRY -->
+
         <div class="mb-4 col-md-4">
-          <label class="form-label">Country</label>
+
+          <label class="form-label">
+            Country
+          </label>
+
           <input
             name="listing[country]"
             value="<%= listing.country %>"
@@ -130,10 +398,19 @@
             class="form-control custom-input"
             required
           >
+
         </div>
 
+
+
+        <!-- LOCATION -->
+
         <div class="mb-4 col-md-4">
-          <label class="form-label">Location</label>
+
+          <label class="form-label">
+            Location
+          </label>
+
           <input
             name="listing[location]"
             value="<%= listing.location %>"
@@ -141,16 +418,40 @@
             class="form-control custom-input"
             required
           >
+
         </div>
 
       </div>
 
+
+
+      <!-- BUTTONS -->
+
       <div class="d-flex justify-content-center gap-3 mt-4 flex-wrap">
-        <button type="submit" class="btn btn-primary-action btn-fixed">Update Listing</button>
-        <a href="/listings/<%= listing._id %>" class="btn btn-danger-action btn-fixed">Cancel</a>
+
+        <button
+          type="submit"
+          class="btn btn-primary-action btn-fixed"
+        >
+
+          Update Listing
+
+        </button>
+
+
+        <a
+          href="/listings/<%= listing._id %>"
+          class="btn btn-danger-action btn-fixed"
+        >
+
+          Cancel
+
+        </a>
+
       </div>
 
     </form>
 
   </div>
+
 </div>

@@ -11,6 +11,7 @@
     </h1>
 
 
+
     <!-- IMAGE GALLERY -->
 
     <div class="listing-gallery">
@@ -35,6 +36,7 @@
         </div>
 
 
+
         <!-- SIDE IMAGES -->
 
         <% if (listing.images.length > 1) { %>
@@ -43,7 +45,7 @@
 
             <% for (
               let i = 1;
-              i < listing.images.length;
+              i < listing.images.length && i < 3;
               i++
             ) { %>
 
@@ -80,6 +82,7 @@
     </div>
 
 
+
     <!-- LISTING INFO -->
 
     <div class="listing-info">
@@ -95,6 +98,7 @@
       </p>
 
 
+
       <p class="listing-meta">
 
         <b>Price:</b>
@@ -106,6 +110,7 @@
       </p>
 
 
+
       <p class="listing-meta">
 
         <b>Location:</b>
@@ -113,6 +118,7 @@
         <%= listing.location %>
 
       </p>
+
 
 
       <p class="listing-meta">
@@ -124,11 +130,67 @@
       </p>
 
 
+
+      <!-- CATEGORY + TRENDING INFO -->
+
+      <% if (listing.isTrending) { %>
+
+        <p class="listing-meta">
+
+          <b>Status:</b>
+
+          🔥 Trending
+
+        </p>
+
+      <% } %>
+
+
+
+      <% if (listing.category) { %>
+
+        <p class="listing-meta">
+
+          <b>Category:</b>
+
+          <% if (listing.category === "Rooms") { %>
+            🛏️
+          <% } else if (listing.category === "Iconic Cities") { %>
+            🌆
+          <% } else if (listing.category === "Mountains") { %>
+            ⛰️
+          <% } else if (listing.category === "Castles") { %>
+            🏰
+          <% } else if (listing.category === "Amazing Pools") { %>
+            🏊
+          <% } else if (listing.category === "Camping") { %>
+            🏕️
+          <% } else if (listing.category === "Farms") { %>
+            🌾
+          <% } else if (listing.category === "Arctic") { %>
+            ❄️
+          <% } else if (listing.category === "Domes") { %>
+            🛖
+          <% } else if (listing.category === "Boats") { %>
+            ⛵
+          <% } else if (listing.category === "Containers") { %>
+            📦
+          <% } %>
+
+          <%= listing.category %>
+
+        </p>
+
+      <% } %>
+
+
+
       <p class="listing-description">
 
         <%= listing.description %>
 
       </p>
+
 
 
       <!-- MAP SECTION -->
@@ -145,6 +207,7 @@
           <%= listing.country %>
 
         </p>
+
 
 
         <!-- MAP CONTAINER -->
@@ -166,6 +229,7 @@
       </div>
 
     </div>
+
 
 
     <!-- ACTION BUTTONS -->
@@ -204,6 +268,7 @@
       </div>
 
 
+
       <% if (
         currUser &&
         listing.owner &&
@@ -218,6 +283,7 @@
           >
             Edit
           </a>
+
 
 
           <form
@@ -245,7 +311,9 @@
 </div>
 
 
+
 <hr class="show-divider">
+
 
 
 <!-- REVIEW SECTION -->
@@ -255,6 +323,7 @@
   <h2 class="text-center mb-4">
     Leave a Review
   </h2>
+
 
 
   <form
@@ -269,6 +338,7 @@
       <label class="d-block mb-3">
         Rating
       </label>
+
 
 
       <fieldset class="starability-slot">
@@ -295,6 +365,7 @@
         </label>
 
 
+
         <input
           type="radio"
           id="first-rate2"
@@ -305,6 +376,7 @@
         <label for="first-rate2">
           2 stars
         </label>
+
 
 
         <input
@@ -319,6 +391,7 @@
         </label>
 
 
+
         <input
           type="radio"
           id="first-rate4"
@@ -329,6 +402,7 @@
         <label for="first-rate4">
           4 stars
         </label>
+
 
 
         <input
@@ -347,6 +421,7 @@
     </div>
 
 
+
     <div class="review-field text-center mb-4">
 
       <label
@@ -355,6 +430,7 @@
       >
         Comments
       </label>
+
 
 
       <textarea
@@ -373,6 +449,7 @@
     </div>
 
 
+
     <div class="text-center mt-3">
 
       <button
@@ -387,7 +464,9 @@
   </form>
 
 
+
   <hr class="my-5">
+
 
 
   <!-- ALL REVIEWS -->
@@ -395,6 +474,7 @@
   <h2 class="text-center mb-2">
     All Reviews
   </h2>
+
 
 
   <% let totalReviews = listing.reviews.length; %>
@@ -406,6 +486,7 @@
     </p>
 
   </div>
+
 
 
   <div class="row justify-content-center">
@@ -425,6 +506,7 @@
             </h5>
 
 
+
             <p
               class="starability-result"
               data-rating="<%= review.rating %>"
@@ -436,9 +518,11 @@
             </p>
 
 
+
             <p class="card-text">
               <%= review.comment %>
             </p>
+
 
 
             <% if (
@@ -455,6 +539,7 @@
                 >
                   Edit
                 </a>
+
 
 
                 <form
@@ -483,6 +568,7 @@
   </div>
 
 </div>
+
 
 
 <!-- MAP DATA -->
@@ -514,6 +600,7 @@
 </script>
 
 
+
 <!-- IMAGE MODAL -->
 
 <div
@@ -527,6 +614,7 @@
   >
     &times;
   </span>
+
 
 
   <img
