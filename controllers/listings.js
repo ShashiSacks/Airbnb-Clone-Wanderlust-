@@ -7,702 +7,228 @@ const defaultImage = {
 };
 
 
-// =======================================================
-// INDEX ROUTE
-// =======================================================
-
-module.exports.index = async (
-  req,
-  res,
-  next
-) => {
-
+// Index Route
+module.exports.index = async (req, res, next) => {
   try {
+    const listings = await Listing.find({});
 
-    const listings =
-      await Listing.find({});
-
-
-    res.render(
-
-      "listings/index",
-
-      {
-
-        listings,
-
-        selectedCategory: null,
-
-        searchQuery: "",
-
-      }
-    );
-
+    res.render("listings/index", {
+      listings,
+      selectedCategory: null,
+      searchQuery: "",
+    });
   } catch (err) {
-
-    console.log(
-      "INDEX ERROR:",
-      err
-    );
-
+    console.log("Index Error:", err);
     next(err);
   }
 };
 
 
-// =======================================================
-// NEW FORM ROUTE
-// =======================================================
-
-module.exports.renderNewForm = (
-  req,
-  res
-) => {
-
-  res.render(
-    "listings/new"
-  );
+// New Form Route
+module.exports.renderNewForm = (req, res) => {
+  res.render("listings/new");
 };
 
 
-// =======================================================
-// SHOW ROUTE
-// =======================================================
-
-module.exports.showListing = async (
-  req,
-  res,
-  next
-) => {
-
+// Show Route
+module.exports.showListing = async (req, res, next) => {
   try {
+    const { id } = req.params;
 
-    const { id } =
-      req.params;
-
-
-    const listing =
-      await Listing.findById(id)
-
-        .populate({
-
-          path: "reviews",
-
-          populate: {
-            path: "author",
-          },
-        })
-
-        .populate("owner");
-
+    const listing = await Listing.findById(id)
+      .populate({
+        path: "reviews",
+        populate: {
+          path: "author",
+        },
+      })
+      .populate("owner");
 
     if (!listing) {
-
-      req.flash(
-
-        "error",
-
-        "Listing you requested does not exist!"
-      );
-
-
-      return res.redirect(
-        "/listings"
-      );
+      req.flash("error", "Listing You Requested Does Not Exist!");
+      return res.redirect("/listings");
     }
 
-
-    res.render(
-
-      "listings/show",
-
-      { listing }
-    );
-
+    res.render("listings/show", { listing });
   } catch (err) {
-
-    console.log(
-      "SHOW ERROR:",
-      err
-    );
-
+    console.log("Show Error:", err);
     next(err);
   }
 };
 
 
-// =======================================================
-// CREATE ROUTE
-// =======================================================
+// Geocoding Helper
+async function geocodeListing(location, country) {
+  const searchText = `${location}, ${country}`;
 
-module.exports.createListing = async (
-  req,
-  res,
-  next
-) => {
+  console.log("Search:", searchText);
 
   try {
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 7000);
 
-    const newListing =
-      new Listing(
-        req.body.listing
-      );
-
-
-    // =======================================================
-    // REAL TRENDING SYSTEM
-    // =======================================================
-
-    newListing.isTrending =
-      req.body.listing.isTrending === "true";
-
-
-    // =======================================================
-    // IMAGE HANDLING
-    // =======================================================
-
-    newListing.images = [];
-
-
-    // Uploaded Images
-
-    if (
-
-      req.files &&
-
-      req.files.length > 0
-    ) {
-
-      req.files.forEach((file) => {
-
-        newListing.images.push({
-
-          url: file.path,
-
-          filename:
-            file.filename,
-        });
-
-      });
-
-    }
-
-
-    // Default Image
-
-    if (
-      newListing.images.length === 0
-    ) {
-
-      newListing.images.push(
-        defaultImage
-      );
-    }
-
-
-    // =======================================================
-    // GEOCODING
-    // =======================================================
-
-    const searchText =
-      `${newListing.location}, ${newListing.country}`;
-
-
-    console.log(
-      "SEARCH:",
-      searchText
+    const geoResponse = await fetch(
+      `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(searchText)}&format=json&limit=1`,
+      {
+        signal: controller.signal,
+        headers: { "User-Agent": "WanderLust-App" },
+      }
     );
 
+    clearTimeout(timeout);
 
-    try {
+    const geoData = await geoResponse.json();
 
-      const controller =
-        new AbortController();
+    console.log("Geodata:", geoData);
 
+    if (geoData && geoData.length > 0) {
+      const latitude = parseFloat(geoData[0].lat);
+      const longitude = parseFloat(geoData[0].lon);
 
-      const timeout =
-        setTimeout(() => {
-
-          controller.abort();
-
-        }, 7000);
-
-
-      const geoResponse =
-        await fetch(
-
-          `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(searchText)}&format=json&limit=1`,
-
-          {
-
-            signal:
-              controller.signal,
-
-            headers: {
-
-              "User-Agent":
-                "WanderLust-App",
-            },
-          }
-        );
-
-
-      clearTimeout(timeout);
-
-
-      const geoData =
-        await geoResponse.json();
-
-
-      console.log(
-        "GEODATA:",
-        geoData
-      );
-
-
-      if (
-
-        geoData &&
-
-        geoData.length > 0
-      ) {
-
-        const latitude =
-          parseFloat(
-            geoData[0].lat
-          );
-
-
-        const longitude =
-          parseFloat(
-            geoData[0].lon
-          );
-
-
-        if (
-
-          !isNaN(latitude) &&
-
-          !isNaN(longitude)
-        ) {
-
-          newListing.geometry = {
-
-            type: "Point",
-
-            coordinates: [
-
-              longitude,
-
-              latitude,
-            ],
-          };
-        }
+      if (!isNaN(latitude) && !isNaN(longitude)) {
+        return {
+          type: "Point",
+          coordinates: [longitude, latitude],
+        };
       }
+    }
+  } catch (geoErr) {
+    console.log("Geocoding Error:", geoErr.message);
+  }
 
-    } catch (geoErr) {
+  return null;
+}
 
-      console.log(
 
-        "GEOCODING ERROR:",
+// Create Route
+module.exports.createListing = async (req, res, next) => {
+  try {
+    const newListing = new Listing(req.body.listing);
 
-        geoErr.message
-      );
+    // Trending System
+    newListing.isTrending = req.body.listing.isTrending === "true";
+
+    // Image Handling
+    newListing.images = [];
+
+    if (req.files && req.files.length > 0) {
+      req.files.forEach((file) => {
+        newListing.images.push({
+          url: file.path,
+          filename: file.filename,
+        });
+      });
     }
 
+    if (newListing.images.length === 0) {
+      newListing.images.push(defaultImage);
+    }
 
-    // =======================================================
-    // OWNER
-    // =======================================================
+    // Geocoding
+    const geometry = await geocodeListing(newListing.location, newListing.country);
+    if (geometry) {
+      newListing.geometry = geometry;
+    }
 
-    newListing.owner =
-      req.user._id;
-
-
-    // =======================================================
-    // SAVE
-    // =======================================================
+    // Owner
+    newListing.owner = req.user._id;
 
     await newListing.save();
 
-
-    req.flash(
-
-      "success",
-
-      "New listing created!"
-    );
-
-
-    res.redirect(
-      `/listings/${newListing._id}`
-    );
-
+    req.flash("success", "New Listing Created!");
+    res.redirect(`/listings/${newListing._id}`);
   } catch (err) {
-
-    console.log(
-      "CREATE ERROR:",
-      err
-    );
-
+    console.log("Create Error:", err);
     next(err);
   }
 };
 
 
-// =======================================================
-// EDIT FORM ROUTE
-// =======================================================
-
-module.exports.renderEditForm = async (
-  req,
-  res,
-  next
-) => {
-
+// Edit Form Route
+module.exports.renderEditForm = async (req, res, next) => {
   try {
-
-    const { id } =
-      req.params;
-
-
-    const listing =
-      await Listing.findById(id);
-
+    const { id } = req.params;
+    const listing = await Listing.findById(id);
 
     if (!listing) {
-
-      req.flash(
-
-        "error",
-
-        "Listing does not exist!"
-      );
-
-
-      return res.redirect(
-        "/listings"
-      );
+      req.flash("error", "Listing Does Not Exist!");
+      return res.redirect("/listings");
     }
 
-
-    res.render(
-
-      "listings/edit",
-
-      { listing }
-    );
-
+    res.render("listings/edit", { listing });
   } catch (err) {
-
-    console.log(
-      "EDIT FORM ERROR:",
-      err
-    );
-
+    console.log("Edit Form Error:", err);
     next(err);
   }
 };
 
 
-// =======================================================
-// UPDATE ROUTE
-// =======================================================
-
-module.exports.updateListing = async (
-  req,
-  res,
-  next
-) => {
-
+// Update Route
+module.exports.updateListing = async (req, res, next) => {
   try {
-
-    const { id } =
-      req.params;
-
-
-    const listing =
-      await Listing.findById(id);
-
+    const { id } = req.params;
+    const listing = await Listing.findById(id);
 
     if (!listing) {
-
-      req.flash(
-
-        "error",
-
-        "Listing not found!"
-      );
-
-
-      return res.redirect(
-        "/listings"
-      );
+      req.flash("error", "Listing Not Found!");
+      return res.redirect("/listings");
     }
 
+    // Update Fields
+    listing.title = req.body.listing.title;
+    listing.description = req.body.listing.description;
+    listing.price = req.body.listing.price;
+    listing.country = req.body.listing.country;
+    listing.location = req.body.listing.location;
+    listing.category = req.body.listing.category;
 
-    // =======================================================
-    // UPDATE FIELDS
-    // =======================================================
+    // Trending System
+    listing.isTrending = req.body.listing.isTrending === "true";
 
-    listing.title =
-      req.body.listing.title;
-
-
-    listing.description =
-      req.body.listing.description;
-
-
-    listing.price =
-      req.body.listing.price;
-
-
-    listing.country =
-      req.body.listing.country;
-
-
-    listing.location =
-      req.body.listing.location;
-
-
-    listing.category =
-      req.body.listing.category;
-
-
-    // =======================================================
-    // REAL TRENDING SYSTEM
-    // =======================================================
-
-    listing.isTrending =
-      req.body.listing.isTrending === "true";
-
-
-    // =======================================================
-    // UPDATE IMAGES
-    // =======================================================
-
-    if (
-
-      req.files &&
-
-      req.files.length > 0
-    ) {
-
+    // Update Images
+    if (req.files && req.files.length > 0) {
       listing.images = [];
 
-
       req.files.forEach((file) => {
-
         listing.images.push({
-
           url: file.path,
-
-          filename:
-            file.filename,
+          filename: file.filename,
         });
-
       });
-
     }
 
-
-    // =======================================================
-    // GEOCODING
-    // =======================================================
-
-    const searchText =
-      `${listing.location}, ${listing.country}`;
-
-
-    console.log(
-      "SEARCH:",
-      searchText
-    );
-
-
-    try {
-
-      const controller =
-        new AbortController();
-
-
-      const timeout =
-        setTimeout(() => {
-
-          controller.abort();
-
-        }, 7000);
-
-
-      const geoResponse =
-        await fetch(
-
-          `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(searchText)}&format=json&limit=1`,
-
-          {
-
-            signal:
-              controller.signal,
-
-            headers: {
-
-              "User-Agent":
-                "WanderLust-App",
-            },
-          }
-        );
-
-
-      clearTimeout(timeout);
-
-
-      const geoData =
-        await geoResponse.json();
-
-
-      console.log(
-        "GEODATA:",
-        geoData
-      );
-
-
-      if (
-
-        geoData &&
-
-        geoData.length > 0
-      ) {
-
-        const latitude =
-          parseFloat(
-            geoData[0].lat
-          );
-
-
-        const longitude =
-          parseFloat(
-            geoData[0].lon
-          );
-
-
-        if (
-
-          !isNaN(latitude) &&
-
-          !isNaN(longitude)
-        ) {
-
-          listing.geometry = {
-
-            type: "Point",
-
-            coordinates: [
-
-              longitude,
-
-              latitude,
-            ],
-          };
-        }
-      }
-
-    } catch (geoErr) {
-
-      console.log(
-
-        "GEOCODING ERROR:",
-
-        geoErr.message
-      );
+    // Geocoding
+    const geometry = await geocodeListing(listing.location, listing.country);
+    if (geometry) {
+      listing.geometry = geometry;
     }
-
-
-    // =======================================================
-    // SAVE
-    // =======================================================
 
     await listing.save();
 
-
-    req.flash(
-
-      "success",
-
-      "Listing updated successfully!"
-    );
-
-
-    res.redirect(
-      `/listings/${id}`
-    );
-
+    req.flash("success", "Listing Updated Successfully!");
+    res.redirect(`/listings/${id}`);
   } catch (err) {
-
-    console.log(
-      "UPDATE ERROR:",
-      err
-    );
-
+    console.log("Update Error:", err);
     next(err);
   }
 };
 
 
-// =======================================================
-// DELETE ROUTE
-// =======================================================
-
-module.exports.destroyListing = async (
-  req,
-  res,
-  next
-) => {
-
+// Delete Route
+module.exports.destroyListing = async (req, res, next) => {
   try {
-
-    const { id } =
-      req.params;
-
-
-    const deletedListing =
-      await Listing.findByIdAndDelete(id);
-
+    const { id } = req.params;
+    const deletedListing = await Listing.findByIdAndDelete(id);
 
     if (!deletedListing) {
-
-      req.flash(
-
-        "error",
-
-        "Listing not found!"
-      );
-
-
-      return res.redirect(
-        "/listings"
-      );
+      req.flash("error", "Listing Not Found!");
+      return res.redirect("/listings");
     }
 
-
-    req.flash(
-
-      "success",
-
-      "Listing deleted successfully!"
-    );
-
-
-    res.redirect(
-      "/listings"
-    );
-
+    req.flash("success", "Listing Deleted Successfully!");
+    res.redirect("/listings");
   } catch (err) {
-
-    console.log(
-      "DELETE ERROR:",
-      err
-    );
-
+    console.log("Delete Error:", err);
     next(err);
   }
 };

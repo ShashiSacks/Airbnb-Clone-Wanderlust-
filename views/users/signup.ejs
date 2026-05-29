@@ -3,24 +3,14 @@
 <%- include("../includes/flash.ejs") %>
 
 <div class="auth-page">
-
   <div class="auth-box">
 
     <h2>Create Account</h2>
+    <p class="auth-subtitle">Join Wanderlust and explore amazing stays</p>
 
-    <p class="auth-subtitle">
-      Join Wanderlust and explore amazing stays
-    </p>
-
-    <form
-      action="/signup"
-      method="POST"
-      class="needs-validation"
-      novalidate
-    >
+    <form action="/signup" method="POST" class="needs-validation" novalidate>
 
       <div class="mb-3">
-
         <input
           name="username"
           id="username"
@@ -31,15 +21,10 @@
           autocomplete="username"
           required
         >
-
-        <div class="invalid-feedback">
-          Please enter username
-        </div>
-
+        <div class="invalid-feedback">Please enter username</div>
       </div>
 
       <div class="mb-3">
-
         <input
           name="email"
           id="email"
@@ -49,15 +34,10 @@
           autocomplete="email"
           required
         >
-
-        <div class="invalid-feedback">
-          Please enter email
-        </div>
-
+        <div class="invalid-feedback">Please enter email</div>
       </div>
 
       <div class="mb-4">
-
         <input
           name="password"
           id="password"
@@ -67,65 +47,34 @@
           autocomplete="new-password"
           required
         >
-
-        <div class="invalid-feedback">
-          Please enter password
-        </div>
-
+        <div class="invalid-feedback">Please enter password</div>
       </div>
 
-      <!-- SIGNUP BUTTON -->
-
-      <button
-        type="submit"
-        class="auth-main-btn"
-      >
-
+      <button type="submit" class="auth-main-btn">
         <span class="btn-content">
-
           <i class="fa-solid fa-user-plus auth-btn-icon"></i>
-
           <span>Sign Up</span>
-
         </span>
-
       </button>
 
     </form>
 
     <div class="auth-divider">
-
       <span>OR</span>
-
     </div>
 
-    <!-- GOOGLE BUTTON -->
-
-    <a
-      href="/auth/google"
-      class="google-btn"
-    >
-
+    <a href="/auth/google" class="google-btn">
       <img
         src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg"
         alt="Google Logo"
         class="google-logo"
       >
-
       <span>Sign up with Google</span>
-
     </a>
 
     <p class="auth-bottom-text">
-
-      Already have an account?
-
-      <a href="/login">
-        Log In
-      </a>
-
+      Already have an account? <a href="/login">Log In</a>
     </p>
 
   </div>
-
 </div>

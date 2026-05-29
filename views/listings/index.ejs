@@ -1,498 +1,169 @@
 <% layout("layouts/boilerplate") %>
 
-
-<!-- CATEGORY FILTERS -->
-
 <div class="category-wrapper">
 
-  <!-- TRENDING -->
-
-  <a
-
-    href="/listings/trending"
-
-    class="category-card <%= selectedCategory === 'Trending' ? 'active-category' : '' %>"
-  >
-
+  <a href="/listings/trending" class="category-card <%= selectedCategory === 'Trending' ? 'active-category' : '' %>">
     <i class="fa-solid fa-fire"></i>
-
-    <span>
-      Trending
-    </span>
-
+    <span>Trending</span>
   </a>
 
-
-
-  <!-- ROOMS -->
-
-  <a
-
-    href="/listings/category/Rooms"
-
-    class="category-card <%= selectedCategory === 'Rooms' ? 'active-category' : '' %>"
-  >
-
+  <a href="/listings/category/Rooms" class="category-card <%= selectedCategory === 'Rooms' ? 'active-category' : '' %>">
     <i class="fa-solid fa-bed"></i>
-
-    <span>
-      Rooms
-    </span>
-
+    <span>Rooms</span>
   </a>
 
-
-
-  <!-- ICONIC CITIES -->
-
-  <a
-
-    href="/listings/category/Iconic Cities"
-
-    class="category-card <%= selectedCategory === 'Iconic Cities' ? 'active-category' : '' %>"
-  >
-
+  <a href="/listings/category/Iconic Cities" class="category-card <%= selectedCategory === 'Iconic Cities' ? 'active-category' : '' %>">
     <i class="fa-solid fa-city"></i>
-
-    <span>
-      Iconic Cities
-    </span>
-
+    <span>Iconic Cities</span>
   </a>
 
-
-
-  <!-- MOUNTAINS -->
-
-  <a
-
-    href="/listings/category/Mountains"
-
-    class="category-card <%= selectedCategory === 'Mountains' ? 'active-category' : '' %>"
-  >
-
+  <a href="/listings/category/Mountains" class="category-card <%= selectedCategory === 'Mountains' ? 'active-category' : '' %>">
     <i class="fa-solid fa-mountain"></i>
-
-    <span>
-      Mountains
-    </span>
-
+    <span>Mountains</span>
   </a>
 
-
-
-  <!-- CASTLES -->
-
-  <a
-
-    href="/listings/category/Castles"
-
-    class="category-card <%= selectedCategory === 'Castles' ? 'active-category' : '' %>"
-  >
-
+  <a href="/listings/category/Castles" class="category-card <%= selectedCategory === 'Castles' ? 'active-category' : '' %>">
     <i class="fa-solid fa-chess-rook"></i>
-
-    <span>
-      Castles
-    </span>
-
+    <span>Castles</span>
   </a>
 
-
-
-  <!-- AMAZING POOLS -->
-
-  <a
-
-    href="/listings/category/Amazing Pools"
-
-    class="category-card <%= selectedCategory === 'Amazing Pools' ? 'active-category' : '' %>"
-  >
-
+  <a href="/listings/category/Amazing Pools" class="category-card <%= selectedCategory === 'Amazing Pools' ? 'active-category' : '' %>">
     <i class="fa-solid fa-water-ladder"></i>
-
-    <span>
-      Amazing Pools
-    </span>
-
+    <span>Amazing Pools</span>
   </a>
 
-
-
-  <!-- CAMPING -->
-
-  <a
-
-    href="/listings/category/Camping"
-
-    class="category-card <%= selectedCategory === 'Camping' ? 'active-category' : '' %>"
-  >
-
+  <a href="/listings/category/Camping" class="category-card <%= selectedCategory === 'Camping' ? 'active-category' : '' %>">
     <i class="fa-solid fa-tent"></i>
-
-    <span>
-      Camping
-    </span>
-
+    <span>Camping</span>
   </a>
 
-
-
-  <!-- FARMS -->
-
-  <a
-
-    href="/listings/category/Farms"
-
-    class="category-card <%= selectedCategory === 'Farms' ? 'active-category' : '' %>"
-  >
-
+  <a href="/listings/category/Farms" class="category-card <%= selectedCategory === 'Farms' ? 'active-category' : '' %>">
     <i class="fa-solid fa-wheat-awn"></i>
-
-    <span>
-      Farms
-    </span>
-
+    <span>Farms</span>
   </a>
 
-
-
-  <!-- ARCTIC -->
-
-  <a
-
-    href="/listings/category/Arctic"
-
-    class="category-card <%= selectedCategory === 'Arctic' ? 'active-category' : '' %>"
-  >
-
+  <a href="/listings/category/Arctic" class="category-card <%= selectedCategory === 'Arctic' ? 'active-category' : '' %>">
     <i class="fa-regular fa-snowflake"></i>
-
-    <span>
-      Arctic
-    </span>
-
+    <span>Arctic</span>
   </a>
 
-
-
-  <!-- DOMES -->
-
-  <a
-
-    href="/listings/category/Domes"
-
-    class="category-card <%= selectedCategory === 'Domes' ? 'active-category' : '' %>"
-  >
-
+  <a href="/listings/category/Domes" class="category-card <%= selectedCategory === 'Domes' ? 'active-category' : '' %>">
     <i class="fa-solid fa-igloo"></i>
-
-    <span>
-      Domes
-    </span>
-
+    <span>Domes</span>
   </a>
 
-
-
-  <!-- BOATS -->
-
-  <a
-
-    href="/listings/category/Boats"
-
-    class="category-card <%= selectedCategory === 'Boats' ? 'active-category' : '' %>"
-  >
-
+  <a href="/listings/category/Boats" class="category-card <%= selectedCategory === 'Boats' ? 'active-category' : '' %>">
     <i class="fa-solid fa-ship"></i>
-
-    <span>
-      Boats
-    </span>
-
+    <span>Boats</span>
   </a>
 
-
-
-  <!-- CONTAINERS -->
-
-  <a
-
-    href="/listings/category/Containers"
-
-    class="category-card <%= selectedCategory === 'Containers' ? 'active-category' : '' %>"
-  >
-
+  <a href="/listings/category/Containers" class="category-card <%= selectedCategory === 'Containers' ? 'active-category' : '' %>">
     <i class="fa-solid fa-box"></i>
-
-    <span>
-      Containers
-    </span>
-
+    <span>Containers</span>
   </a>
 
 </div>
 
-
-
-<!-- SEARCH RESULTS -->
-
-<% if(
-  requestPath &&
-  requestPath.includes("/search")
-) { %>
-
+<% if(requestPath && requestPath.includes("/search")) { %>
   <p class="text-center search-result-text">
-
-    Search results for:
-
-    <span>
-      "<%= searchQuery %>"
-    </span>
-
+    Search results for: <span>"<%= searchQuery %>"</span>
   </p>
-
 <% } %>
 
-
-
-<!-- EMPTY LISTINGS -->
-
-<% if(
-  listings &&
-  listings.length === 0
-) { %>
-
+<% if(listings && listings.length === 0) { %>
   <div class="empty-listing-box">
-
     <i class="fa-solid fa-magnifying-glass"></i>
-
-    <h3>
-      No Listings Found
-    </h3>
-
-    <p>
-      Try searching with another location or category.
-    </p>
-
+    <h3>No Listings Found</h3>
+    <p>Try searching with another location or category.</p>
   </div>
-
 <% } %>
 
-
-
-<!-- LISTINGS GRID -->
-
-<% if(
-  listings &&
-  listings.length > 0
-) { %>
-
+<% if(listings && listings.length > 0) { %>
   <div class="row justify-content-center mt-4">
 
     <% for(let listing of listings) { %>
-
       <div class="col-lg-4 col-md-6 mb-4">
-
         <div class="listing-card-wrapper">
 
-
-          <!-- WISHLIST LOGIC -->
-
           <%
-
             let isWishlisted = false;
-
             if(
-
               currUser &&
-
               currUser.wishlist &&
-
-              currUser.wishlist.some(
-
-                (id) =>
-                  id.equals(listing._id)
-              )
+              currUser.wishlist.some((id) => id.equals(listing._id))
             ) {
-
               isWishlisted = true;
             }
-
           %>
 
-
-
-          <!-- WISHLIST BUTTON -->
-
           <% if(currUser) { %>
-
             <% if(isWishlisted) { %>
-
               <form
-
                 action="/wishlists/remove/<%= listing._id %>"
-
                 method="POST"
-
                 class="wishlist-form"
               >
-
-                <button
-                  type="submit"
-                  class="wishlist-btn active-heart"
-                >
-
+                <button type="submit" class="wishlist-btn active-heart">
                   <i class="fa-solid fa-heart active-heart-icon"></i>
-
                 </button>
-
               </form>
-
             <% } else { %>
-
               <form
-
                 action="/wishlists/<%= listing._id %>"
-
                 method="POST"
-
                 class="wishlist-form"
               >
-
-                <button
-                  type="submit"
-                  class="wishlist-btn"
-                >
-
+                <button type="submit" class="wishlist-btn">
                   <i class="fa-regular fa-heart"></i>
-
                 </button>
-
               </form>
-
             <% } %>
-
           <% } %>
 
-
-
-          <!-- LISTING CARD -->
-
-          <a
-
-            href="/listings/<%= listing._id %>"
-
-            class="listing-link"
-          >
-
+          <a href="/listings/<%= listing._id %>" class="listing-link">
             <div class="card listing-card">
 
-
-              <!-- IMAGE SLIDER -->
-
               <div class="listing-slider">
-
-                <% if(
-                  listing.images &&
-                  listing.images.length > 0
-                ) { %>
-
-                  <% for(
-                    let i = 0;
-                    i < listing.images.length;
-                    i++
-                  ) { %>
-
+                <% if(listing.images && listing.images.length > 0) { %>
+                  <% for(let i = 0; i < listing.images.length; i++) { %>
                     <img
-
                       src="<%= listing.images[i].url %>"
-
                       alt="listing_image"
-
                       class="slider-image <%= i === 0 ? 'active-slide' : '' %>"
                     >
-
                   <% } %>
-
                 <% } else { %>
-
                   <img
-
                     src="/default.jpg"
-
                     alt="default_image"
-
                     class="slider-image active-slide"
                   >
-
                 <% } %>
 
-
-                <button
-                  type="button"
-                  class="slider-btn prev-btn"
-                >
-                  ‹
-                </button>
-
-                <button
-                  type="button"
-                  class="slider-btn next-btn"
-                >
-                  ›
-                </button>
-
+                <button type="button" class="slider-btn prev-btn">‹</button>
+                <button type="button" class="slider-btn next-btn">›</button>
               </div>
 
-
-
-              <!-- CARD CONTENT -->
-
               <div class="card-body text-center">
-
                 <p class="card-text">
-
-                  <b>
-                    <%= listing.title %>
-                  </b>
-
+                  <b><%= listing.title %></b>
                   <br>
-
-
                   <span style="color: #717171;">
-
                     <i class="fa-solid fa-location-dot"></i>
-
                     <%= listing.location %>
-
                   </span>
-
                   <br>
-
-
-                  &#8377;
-
-                  <%= listing.price.toLocaleString("en-IN") %>
-
-                  <span style="color: gray;">
-                    / night
-                  </span>
-
+                  &#8377; <%= listing.price.toLocaleString("en-IN") %>
+                  <span style="color: gray;">/ night</span>
                 </p>
-
               </div>
 
             </div>
-
           </a>
 
         </div>
-
       </div>
-
     <% } %>
 
   </div>
-
 <% } %>

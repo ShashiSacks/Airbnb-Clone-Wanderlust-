@@ -602,7 +602,7 @@ a.btn {
    margin: 0 auto 0.9rem auto !important;
  }
 
- /* 1 IMAGE */
+ /* 1 Image */
  .listing-gallery:not(:has(.side-images)) {
    display: flex;
    justify-content: center;
@@ -614,7 +614,7 @@ a.btn {
    max-width: 700px;
  }
 
- /* 2 OR 3 IMAGES */
+ /* 2 or 3 Images */
  .listing-gallery:has(.side-images) {
    display: grid;
    grid-template-columns: 2fr 0.7fr;
@@ -2178,7 +2178,7 @@ textarea.form-control:hover {
   min-width: 145px;
 }
 
-/* AUTH BUTTON CONTENT */
+/* Auth Button Content */
 
 .btn-content {
   display: flex;
